@@ -1,0 +1,166 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+    <Rules>
+      <Rule ID="P2P.Custom.LogTester.ProcessProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>% Processor Time</CounterName>
+            <ObjectName>Process</ObjectName>
+            <AllInstances>true</AllInstances>
+            <Frequency>2</Frequency>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.Custom.LogTester.ProcessWS" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Working Set</CounterName>
+            <ObjectName>Process</ObjectName>
+            <AllInstances>true</AllInstances>
+            <Frequency>2</Frequency>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.Custom.LogTester.ProcessVB" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Virtual Bytes</CounterName>
+            <ObjectName>Process</ObjectName>
+            <AllInstances>true</AllInstances>
+            <Frequency>2</Frequency>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.Custom.LogTester.ProcessID" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>ID Process</CounterName>
+            <ObjectName>Process</ObjectName>
+            <AllInstances>true</AllInstances>
+            <Frequency>2</Frequency>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.Custom.LogTester.ProcessIOperSec" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>IO Data Operations/sec</CounterName>
+            <ObjectName>Process</ObjectName>
+            <AllInstances>true</AllInstances>
+            <Frequency>2</Frequency>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.Custom.LogTester.ProcessPFB" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Page File Bytes</CounterName>
+            <ObjectName>Process</ObjectName>
+            <AllInstances>true</AllInstances>
+            <Frequency>2</Frequency>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.Custom.LogTester.ProcessPoolPage" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Pool Paged Bytes</CounterName>
+            <ObjectName>Process</ObjectName>
+            <AllInstances>true</AllInstances>
+            <Frequency>2</Frequency>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.Custom.LogTester.ProcessTC" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Thread Count</CounterName>
+            <ObjectName>Process</ObjectName>
+            <AllInstances>true</AllInstances>
+            <Frequency>2</Frequency>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+    </Rules>
+  </Monitoring>
+</ManagementPackFragment>

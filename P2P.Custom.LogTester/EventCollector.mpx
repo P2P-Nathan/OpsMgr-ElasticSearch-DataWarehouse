@@ -1,0 +1,146 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+    <Rules>
+      <Rule ID="P2P.Custom.Test.EventCollector" Enabled="true" Target="Windows!Microsoft.Windows.Computer" Remotable="false" Priority="Normal" DiscardLevel="100" ConfirmDelivery="false">
+        <Category>EventCollection</Category>
+        <DataSources>
+          <DataSource ID="GetEvents" TypeID="Windows!Microsoft.Windows.EventProvider">
+            <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <LogName>Security</LogName>
+            <Expression>
+              <SimpleExpression>
+                <ValueExpression>
+                  <XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+                </ValueExpression>
+                <Operator>Greater</Operator>
+                <ValueExpression>
+                  <Value Type="UnsignedInteger">0</Value>
+                </ValueExpression>
+              </SimpleExpression>
+            </Expression>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.Custom.Test.EventCollectorApp" Enabled="true" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal" DiscardLevel="100">
+        <Category>EventCollection</Category>
+        <DataSources>
+          <DataSource ID="GetEvents" TypeID="Windows!Microsoft.Windows.EventProvider">
+            <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <LogName>Application</LogName>
+            <Expression>
+              <SimpleExpression>
+                <ValueExpression>
+                  <XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+                </ValueExpression>
+                <Operator>NotEqual</Operator>
+                <ValueExpression>
+                  <Value Type="UnsignedInteger">0</Value>
+                </ValueExpression>
+              </SimpleExpression>
+            </Expression>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.Custom.Test.EventCollectorMyApp" Enabled="true" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal" DiscardLevel="100">
+        <Category>EventCollection</Category>
+        <DataSources>
+          <DataSource ID="GetEvents" TypeID="Windows!Microsoft.Windows.EventProvider">
+            <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <LogName>MyNoisyApp</LogName>
+            <Expression>
+              <SimpleExpression>
+                <ValueExpression>
+                  <XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+                </ValueExpression>
+                <Operator>NotEqual</Operator>
+                <ValueExpression>
+                  <Value Type="UnsignedInteger">0</Value>
+                </ValueExpression>
+              </SimpleExpression>
+            </Expression>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.Custom.Test.EventCollectorOpsMgr" Enabled="true" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal" DiscardLevel="100">
+        <Category>EventCollection</Category>
+        <DataSources>
+          <DataSource ID="GetEvents" TypeID="Windows!Microsoft.Windows.EventProvider">
+            <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <LogName>Operations Manager</LogName>
+            <Expression>
+              <SimpleExpression>
+                <ValueExpression>
+                  <XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+                </ValueExpression>
+                <Operator>NotEqual</Operator>
+                <ValueExpression>
+                  <Value Type="UnsignedInteger">0</Value>
+                </ValueExpression>
+              </SimpleExpression>
+            </Expression>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.Custom.Test.EventCollectorSys" Enabled="true" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal" DiscardLevel="100">
+        <Category>EventCollection</Category>
+        <DataSources>
+          <DataSource ID="GetEvents" TypeID="Windows!Microsoft.Windows.EventProvider">
+            <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <LogName>System</LogName>
+            <Expression>
+              <SimpleExpression>
+                <ValueExpression>
+                  <XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+                </ValueExpression>
+                <Operator>NotEqual</Operator>
+                <ValueExpression>
+                  <Value Type="UnsignedInteger">0</Value>
+                </ValueExpression>
+              </SimpleExpression>
+            </Expression>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+    </Rules>
+  </Monitoring>
+</ManagementPackFragment>

@@ -1,0 +1,31 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <ModuleTypes>
+      <WriteActionModuleType ID="P2P.Library.WriteToElasticSearch" Accessibility="Public" Batching="true">
+        <Configuration>
+          <xsd:element name="ElasticSearchNode" type="xsd:string" />
+          <xsd:element name="WinEventIndex" type="xsd:string" />
+          <xsd:element name="AllOtherIndex" type="xsd:string" />
+          <xsd:element name="TryBulkInsert" type="xsd:boolean" />
+        </Configuration>
+        <ModuleImplementation Isolation="OwnProcess">
+          <Managed>
+            <Assembly>P2P.ManagedScomModules</Assembly>
+            <Type>ManagedSCOMModules.WriteToES</Type>
+          </Managed>
+        </ModuleImplementation>
+        <InputType>System!System.BaseData</InputType>
+      </WriteActionModuleType>
+    </ModuleTypes>
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="P2P.Library.WriteToElasticSearch">
+          <Name>Write to Elastic Search</Name>
+          <Description>Take the Data Item and write it to Elastic Search</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>
