@@ -6,7 +6,6 @@ Imports Microsoft.Win32
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 Imports Nest
-Imports ManagedSCOMModules.ElasticSearchConnector
 
 <MonitoringModule(ModuleType.WriteAction)> <ModuleOutput(False)> _
 Public NotInheritable Class WriteToES

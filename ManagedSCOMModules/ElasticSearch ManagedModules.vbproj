@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{75AF509F-1D65-440D-8B43-015BB83D9EBA}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ManagedSCOMModules</RootNamespace>
-    <AssemblyName>ManagedSCOMModules</AssemblyName>
+    <RootNamespace>ElasticSearchManagedModules</RootNamespace>
+    <AssemblyName>ElasticSearchManagedModules</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -18,7 +18,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>ManagedSCOMModules.xml</DocumentationFile>
+    <DocumentationFile>ElasticSearchManagedModules.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
@@ -29,7 +29,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>ManagedSCOMModules.xml</DocumentationFile>
+    <DocumentationFile>ElasticSearchManagedModules.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
@@ -58,7 +58,7 @@
       <HintPath>..\packages\Elasticsearch.Net.1.7.1\lib\net45\Elasticsearch.Net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.HealthService">
-      <HintPath>..\..\RefLibraries\Microsoft.EnterpriseManagement.HealthService.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Microsoft Monitoring Agent\Agent\Microsoft.EnterpriseManagement.HealthService.dll</HintPath>
     </Reference>
     <Reference Include="Nest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -85,11 +85,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\AllOtherDataStructure.vb" />
-    <Compile Include="Classes\ElasticSearchConnector.vb" />
-    <Compile Include="Classes\P2PLogging.vb" />
-    <Compile Include="Classes\LibraryLoader.vb" />
-    <Compile Include="Classes\PerfItemDataStructure.vb" />
+    <Compile Include="Engine Classes\AllOtherDataStructure.vb" />
+    <Compile Include="Engine Classes\ElasticSearchConnector.vb" />
+    <Compile Include="Engine Classes\P2PLogging.vb" />
+    <Compile Include="Engine Classes\LibraryLoader.vb" />
+    <Compile Include="Engine Classes\PerfItemDataStructure.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -105,9 +105,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Classes\DataItemProcessor.vb" />
-    <Compile Include="Classes\WinEventDataStructure.vb" />
-    <Compile Include="WriteToES.vb" />
+    <Compile Include="Engine Classes\DataItemProcessor.vb" />
+    <Compile Include="Engine Classes\WinEventDataStructure.vb" />
+    <Compile Include="Module Classes\WriteToES.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -136,6 +136,7 @@
     <EmbeddedResource Include="Resources\Nest.dll" />
     <EmbeddedResource Include="Resources\Newtonsoft.Json.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

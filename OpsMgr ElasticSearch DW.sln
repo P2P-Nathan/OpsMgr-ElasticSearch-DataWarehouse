@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ManagedSCOMModules VB.NET", "ManagedSCOMModules\ManagedSCOMModules VB.NET.vbproj", "{75AF509F-1D65-440D-8B43-015BB83D9EBA}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ElasticSearch ManagedModules", "ManagedSCOMModules\ElasticSearch ManagedModules.vbproj", "{75AF509F-1D65-440D-8B43-015BB83D9EBA}"
 EndProject
 Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "P2P.Custom.Managed.Modules.Library", "P2P.Custom.Managed.Modules.Library\P2P.Custom.Managed.Modules.Library.mpproj", "{0AEB99A3-F1DA-43EB-86F8-FB44B72789D2}"
 	ProjectSection(ProjectDependencies) = postProject
