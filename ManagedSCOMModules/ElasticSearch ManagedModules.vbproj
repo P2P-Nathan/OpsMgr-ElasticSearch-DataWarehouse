@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engine Classes\AllOtherDataStructure.vb" />
+    <Compile Include="Engine Classes\ElasticDocEncoder.vb" />
     <Compile Include="Engine Classes\ElasticSearchConnector.vb" />
     <Compile Include="Engine Classes\JSONEncodedDataItem.vb" />
     <Compile Include="Engine Classes\P2PLogging.vb" />

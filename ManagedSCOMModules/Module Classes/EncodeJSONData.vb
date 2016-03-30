@@ -28,17 +28,9 @@ Public Class EncodeJSONData
 
 #Region "XML Element Names"
 
-    ''' <summary>
-    ''' The outer element of configuration XML to a module is always
-    ''' "Configuration".
-    ''' </summary>
     Private Const ConfigurationElementName As String = "Configuration"
-
-    ''' <summary>
-    ''' Our own portion of configuration has the element name
-    ''' "ReturnMultipleItems".
-    ''' </summary>
     Private Const ReturnMultipleItems As String = "ReturnMultipleItems"
+    Private Const ComputerNameTag As String = "ComputerName"
 
 #End Region
 
@@ -46,6 +38,11 @@ Public Class EncodeJSONData
     ''' Boolean value tracking if the module has been shutdown or not.
     ''' </summary>
     Private boolshutdown As Boolean
+
+    ''' <summary>
+    ''' Complex Type used to Process and produce Items as an Array of Typed Objects
+    ''' </summary>
+    Private ElasticEncoder As ElasticDocEncoder
 
     ''' <summary>
     ''' Constructor of the Module is called when the Module is initialized with the moduleHost pointer and the Xml configuration
@@ -81,23 +78,23 @@ Public Class EncodeJSONData
         ' set the default
         boolreturnMultipleItems = True
 
+        'Create the Classes we will use throughout the life of this module
+        Logger = New P2PLogging
+
+
         Try
             configuration.MoveToContent()
 
             configuration.ReadStartElement(EncodeJSONData.ConfigurationElementName)
             configuration.ReadStartElement(EncodeJSONData.ReturnMultipleItems)
             boolreturnMultipleItems = configuration.ReadContentAsBoolean()
-
+            Dim ComputerName As String
+            configuration.ReadStartElement(EncodeJSONData.ReturnMultipleItems)
+            ComputerName = configuration.ReadContentAsString()
+            ElasticEncoder = New ElasticDocEncoder(ComputerName, Logger)
             configuration.ReadEndElement()
             configuration.ReadEndElement()
         Catch xe As XmlException
-            ' It is important to catch all known exceptions.  From the
-            '                 * module constructor if there is just a generic error then it
-            '                 * should be wrapped as the inner exception to ModuleException
-            '                 * and thrown.  It is also fine to have more detailed events 
-            '                 * and use NotifyError with an event id.
-            '                 
-
             Logger.LogErrorDetails([String].Format("Error configuration is invalid. {0}", configuration.ReadOuterXml()))
             Throw New ModuleException("Invalid Xml Config received.", xe)
         Finally
@@ -174,42 +171,28 @@ Public Class EncodeJSONData
             Dim outputDataItems As New List(Of JSONEncodedDataItem)()
             Dim allDataItemsOneString As String = ""
             Dim corruptLogicalSet As Boolean = False
+            Dim JSONencodedString As String
+            ' Dim Reader As XmlReader
 
+            ElasticEncoder.SetIndexPrefix(Now.ToString("yyyy-MM-dd"))
             ' Loop through all input data items processing them
+
             For Each dataItem As DataItemBase In dataItems
                 ' When processing the input data items as a best practice
                 ' we should always check for MalformedDataItemException on
-                ' any access to the input data.  
-
                 Try
-
-                    'get the whole input DataItem
-                    Dim reader As XmlReader = dataItem.GetItemXml()
-                    reader.MoveToContent()
-                    Dim dataItemOuterText As String = reader.ReadOuterXml()
-
-                    ' write the encoded form of the DataItem into encodedString
-                    ' don't know a lot about the StringBuilder class, it's clear that the initial length will be just a start6ing point since the encoded item will be longer
-                    Dim JSONencodedString As New System.Text.StringBuilder(dataItemOuterText.Length)
-                    Dim writerSettings As New XmlWriterSettings()
-                    writerSettings.OmitXmlDeclaration = True
-                    writerSettings.ConformanceLevel = ConformanceLevel.Fragment
-                    Dim writer As XmlWriter = XmlWriter.Create(JSONencodedString, writerSettings)
-                    writer.WriteString(dataItemOuterText)
-                    writer.Close()
-                    Dim encodedXml As String = JSONencodedString.ToString()
+                    JSONencodedString = ElasticEncoder.EncodeSingleInsert(dataItem)
                     Logger.WriteTrace("Encoded as follow")
-                    Logger.WriteTrace(encodedXml)
-
+                    Logger.WriteTrace(JSONencodedString)
 
                     ' if we return multiple itemas default just queue the new dataitem, if not build the output string allIn1Item
                     If boolreturnMultipleItems Then
-                        Dim outputDataItem As New JSONEncodedDataItem(encodedXml)
-                        reader = outputDataItem.GetItemXml()
-                        reader.MoveToContent()
+                        Dim outputDataItem As New JSONEncodedDataItem(JSONencodedString)
+                        'reader = outputDataItem.GetItemXml()
+                        'reader.MoveToContent()
                         outputDataItems.Add(outputDataItem)
                     Else
-                        allDataItemsOneString += encodedXml
+                        allDataItemsOneString += JSONencodedString
                     End If
                 Catch generatedExceptionName As MalformedDataItemException
 

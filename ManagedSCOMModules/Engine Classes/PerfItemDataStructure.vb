@@ -5,6 +5,7 @@ Imports System.Xml.XPath
 Public Structure PerfItemDataStructure
     Public TimeSampled As Date
     Public sourceHealthServiceID As Guid
+    Public ComputerName As String
     Public ObjectName As String
     Public CounterName As String
     Public InstanceName As String
@@ -12,9 +13,10 @@ Public Structure PerfItemDataStructure
     Public Value As Double
     Public SampleCount As Integer
 
-    Public Sub New(ByRef dataitem As DataItemBase) ', Logger As ETWLogging)
+    Public Sub New(ByRef dataitem As DataItemBase, Optional ByRef CompName As String = "") ', Logger As ETWLogging)
         sourceHealthServiceID = dataitem.SourceHealthServiceId
         TimeSampled = dataitem.DateCreated
+        ComputerName = CompName
         Dim reader As XmlReader = dataitem.GetItemXml()
         Do While reader.Name <> "ObjectName"
             reader.Read()
