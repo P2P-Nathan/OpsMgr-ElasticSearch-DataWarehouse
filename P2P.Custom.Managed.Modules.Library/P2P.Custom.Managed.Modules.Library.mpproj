@@ -67,7 +67,7 @@
     <Folder Include="Resources" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ManagedSCOMModules.dll">
+    <EmbeddedResource Include="Resources\ElasticSearchManagedModules.dll">
       <SubType>Content</SubType>
     </EmbeddedResource>
   </ItemGroup>

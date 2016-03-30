@@ -1,6 +1,45 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <TypeDefinitions>
+    <DataTypes>
+      <DataType ID="P2P.DataItems.JSONEncodedData" Base="System!System.BaseData" Accessibility="Public">
+        <Implementation>
+          <Assembly>P2P.ManagedScomModules</Assembly>
+          <Type>ManagedSCOMModules.JSONEncodedDataItem</Type>
+        </Implementation>
+      </DataType>
+    </DataTypes>
     <ModuleTypes>
+      <ConditionDetectionModuleType ID="P2P.Library.PrepareJSONDocumentry" Accessibility="Public" Batching="true">
+        <Configuration>
+          <xsd:element name="ReturnMultipleItems" type="xsd:boolean" />
+          <xsd:element name="ComputerName" type="xsd:string" />
+        </Configuration>
+        <ModuleImplementation>
+          <Managed>
+            <Assembly>P2P.ManagedScomModules</Assembly>
+            <Type>ManagedSCOMModules.EncodeJSONData</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DataItems.JSONEncodedData</OutputType>
+        <InputTypes>
+          <InputType>System!System.BaseData</InputType>
+        </InputTypes>
+      </ConditionDetectionModuleType>
+      <WriteActionModuleType ID="P2P.Library.WritePreparedJSONElasticSearch" Accessibility="Public" Batching="true">
+        <Configuration>
+          <xsd:element name="ElasticSearchNode" type="xsd:string" />
+          <xsd:element name="WinEventIndex" type="xsd:string" />
+          <xsd:element name="AllOtherIndex" type="xsd:string" />
+          <xsd:element name="TryBulkInsert" type="xsd:boolean" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>P2P.ManagedScomModules</Assembly>
+            <Type>ManagedSCOMModules.PreparedJSON_WritetoES</Type>
+          </Managed>
+        </ModuleImplementation>
+        <InputType>P2P.DataItems.JSONEncodedData</InputType>
+      </WriteActionModuleType>
       <WriteActionModuleType ID="P2P.Library.WriteToElasticSearch" Accessibility="Public" Batching="true">
         <Configuration>
           <xsd:element name="ElasticSearchNode" type="xsd:string" />

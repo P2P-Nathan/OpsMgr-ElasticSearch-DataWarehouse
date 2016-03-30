@@ -1,7 +1,7 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Monitoring>
     <Rules>
-      <Rule ID="P2P.Custom.Test.EventCollector" Enabled="true" Target="Windows!Microsoft.Windows.Computer" Remotable="false" Priority="Normal" DiscardLevel="100" ConfirmDelivery="false">
+      <Rule ID="P2P.Custom.Test.EventCollector" Enabled="false" Target="Windows!Microsoft.Windows.Computer" Remotable="false" Priority="Normal" DiscardLevel="100" ConfirmDelivery="false">
         <Category>EventCollection</Category>
         <DataSources>
           <DataSource ID="GetEvents" TypeID="Windows!Microsoft.Windows.EventProvider">
@@ -29,7 +29,7 @@
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.Test.EventCollectorApp" Enabled="true" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.Test.EventCollectorApp" Enabled="false" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal" DiscardLevel="100">
         <Category>EventCollection</Category>
         <DataSources>
           <DataSource ID="GetEvents" TypeID="Windows!Microsoft.Windows.EventProvider">
@@ -57,7 +57,7 @@
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.Test.EventCollectorMyApp" Enabled="true" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.Test.EventCollectorMyApp" Enabled="false" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal" DiscardLevel="100">
         <Category>EventCollection</Category>
         <DataSources>
           <DataSource ID="GetEvents" TypeID="Windows!Microsoft.Windows.EventProvider">
@@ -85,7 +85,7 @@
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.Test.EventCollectorOpsMgr" Enabled="true" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.Test.EventCollectorOpsMgr" Enabled="false" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal" DiscardLevel="100">
         <Category>EventCollection</Category>
         <DataSources>
           <DataSource ID="GetEvents" TypeID="Windows!Microsoft.Windows.EventProvider">
@@ -113,7 +113,7 @@
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.Test.EventCollectorSys" Enabled="true" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.Test.EventCollectorSys" Enabled="false" Target="Windows!Microsoft.Windows.Computer" ConfirmDelivery="false" Remotable="false" Priority="Normal" DiscardLevel="100">
         <Category>EventCollection</Category>
         <DataSources>
           <DataSource ID="GetEvents" TypeID="Windows!Microsoft.Windows.EventProvider">

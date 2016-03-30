@@ -52,9 +52,10 @@
       <PackageToBundle>false</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.Performance.Library">
-      <HintPath>C:\Program Files (x86)\System Center 2012 Visual Studio Authoring Extensions\References\OM2012R2\System.Performance.Library.mp</HintPath>
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Performance.Library.mp</HintPath>
       <Alias>Perf</Alias>
       <MinVersion>7.0.8433.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +63,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Perf.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Split Process Perf.mpx">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

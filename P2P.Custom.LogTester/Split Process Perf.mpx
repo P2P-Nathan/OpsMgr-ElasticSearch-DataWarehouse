@@ -1,7 +1,7 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Monitoring>
     <Rules>
-      <Rule ID="P2P.Custom.LogTester.ProcessProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessProc.SplitProc.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -9,11 +9,15 @@
             <CounterName>% Processor Time</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>2</Frequency>
+            <Frequency>15</Frequency>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
             <WinEventIndex>SCOMWinEvents</WinEventIndex>
             <AllOtherIndex>SCOMDataItems</AllOtherIndex>
@@ -21,7 +25,7 @@
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessWS" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessWS.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -29,11 +33,15 @@
             <CounterName>Working Set</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>2</Frequency>
+            <Frequency>15</Frequency>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
             <WinEventIndex>SCOMWinEvents</WinEventIndex>
             <AllOtherIndex>SCOMDataItems</AllOtherIndex>
@@ -41,7 +49,7 @@
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessVB" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessVB.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -49,11 +57,15 @@
             <CounterName>Virtual Bytes</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>2</Frequency>
+            <Frequency>15</Frequency>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
             <WinEventIndex>SCOMWinEvents</WinEventIndex>
             <AllOtherIndex>SCOMDataItems</AllOtherIndex>
@@ -61,7 +73,7 @@
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessID" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessID.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -69,11 +81,15 @@
             <CounterName>ID Process</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>2</Frequency>
+            <Frequency>15</Frequency>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
             <WinEventIndex>SCOMWinEvents</WinEventIndex>
             <AllOtherIndex>SCOMDataItems</AllOtherIndex>
@@ -81,7 +97,7 @@
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessIOperSec" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessIOperSec.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -89,11 +105,15 @@
             <CounterName>IO Data Operations/sec</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>2</Frequency>
+            <Frequency>15</Frequency>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
             <WinEventIndex>SCOMWinEvents</WinEventIndex>
             <AllOtherIndex>SCOMDataItems</AllOtherIndex>
@@ -101,7 +121,7 @@
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessPFB" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessPFB.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -109,11 +129,15 @@
             <CounterName>Page File Bytes</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>2</Frequency>
+            <Frequency>15</Frequency>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
             <WinEventIndex>SCOMWinEvents</WinEventIndex>
             <AllOtherIndex>SCOMDataItems</AllOtherIndex>
@@ -121,7 +145,7 @@
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessPoolPage" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessPoolPage.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -129,11 +153,15 @@
             <CounterName>Pool Paged Bytes</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>2</Frequency>
+            <Frequency>15</Frequency>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
             <WinEventIndex>SCOMWinEvents</WinEventIndex>
             <AllOtherIndex>SCOMDataItems</AllOtherIndex>
@@ -141,7 +169,7 @@
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessTC" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessTC.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -149,11 +177,15 @@
             <CounterName>Thread Count</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>2</Frequency>
+            <Frequency>15</Frequency>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WriteToElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
             <WinEventIndex>SCOMWinEvents</WinEventIndex>
             <AllOtherIndex>SCOMDataItems</AllOtherIndex>
