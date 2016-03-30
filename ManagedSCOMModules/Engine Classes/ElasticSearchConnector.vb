@@ -57,7 +57,7 @@ Public Class ElasticSearchConnector
         End If
     End Sub
 
-    Private Sub ProccessBulkAsyncJSON(JSON As String, MaxConcurrent As Integer)
+    Public Sub ProccessBulkAsyncJSON(JSON As String, MaxConcurrent As Integer)
         If BulkWriteOperations.Count < MaxConcurrent Then
             'We have room to grow
             BulkWriteOperations.Add(BulkAsyncToESAndReport(JSON))
