@@ -68,6 +68,9 @@
     <Compile Include="Split Process Perf.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SubscriberProcess.mpx">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\P2P.Custom.Managed.Modules.Library\P2P.Custom.Managed.Modules.Library.mpproj">

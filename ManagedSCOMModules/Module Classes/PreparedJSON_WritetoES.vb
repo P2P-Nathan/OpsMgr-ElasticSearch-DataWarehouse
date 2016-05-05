@@ -14,7 +14,7 @@ Public NotInheritable Class PreparedJSON_WritetoES
 
     'Shared objects are accessable from all instances
     Shared Logger As P2PLogging
-    Shared ShutdownInProgress As Boolean
+    Shared ShutdownInProgress As Boolean = False
 
     'This global object will help to control data useage with SyncLocks.
     Private shutdownLock As Object
@@ -52,26 +52,33 @@ Public NotInheritable Class PreparedJSON_WritetoES
 
 
     Public Sub New(moduleHost As ModuleHost(Of DataItemBase), configuration As XmlReader, previousState As Byte())
-
         'Call the Base Constructor 
         MyBase.New(moduleHost)
 
-        'Verify we Have everything we need
-        If configuration Is Nothing Then Throw New Exception("configuration is nothing")
+        Try
+            Logger = New P2PLogging
+            'Verify we Have everything we need
+            If configuration Is Nothing Then Throw New Exception("configuration is nothing")
 
-        'Add the Additional Libraries to our instantiation
-        Dim LibraryLoader As New LibraryLoader(Assembly.GetExecutingAssembly(), False)
-        LibraryLoader.LoadLibrariesFromResources()
+            ''Add the Additional Libraries to our instantiation
+            'Dim LibraryLoader As New LibraryLoader(Assembly.GetExecutingAssembly(), False)
+            'LibraryLoader.LoadLibrariesFromResources()
 
-        'Extract from Config what we need and initiate the connections.
-        Dim InstanceConfig As ParsedConfigData
-        InstanceConfig = ExtractConfigData(configuration)
+            'Extract from Config what we need and initiate the connections.
+            Dim InstanceConfig As ParsedConfigData
+            InstanceConfig = ExtractConfigData(configuration)
 
-        'Create the Classes we will use throughout the life of this module
-        Logger = New P2PLogging
-        DataItemCollection = New DataItemProcessor(Logger)
-        shutdownLock = New Object()
-        ESConnector = New ElasticSearchConnector(InstanceConfig.ESNode, InstanceConfig.OtherIndex, InstanceConfig.WinEvtIndex, Logger)
+            'Create the Classes we will use throughout the life of this module
+
+            DataItemCollection = New DataItemProcessor(Logger)
+            ESConnector = New ElasticSearchConnector(InstanceConfig.ESNode, InstanceConfig.OtherIndex, InstanceConfig.WinEvtIndex, Logger)
+        Catch ex As Exception
+            Logger.LogErrorDetails("Failed to Start Module", ex)
+        Finally
+            Logger.WriteInformation("Completed PrePared JSON Write Startup")
+            shutdownLock = New Object()
+        End Try
+
 
     End Sub
 
@@ -83,14 +90,15 @@ Public NotInheritable Class PreparedJSON_WritetoES
         End If
         Dim ackNeeded As Boolean = acknowledgedCallback IsNot Nothing
 
-        ' If we have been shutdown stop processing.
-        If ShutdownInProgress Then
-            Logger.WriteInformation("Shutdown in Progress")
-            Return
-        End If
-
         SyncLock shutdownLock
             Try
+                ' If we have been shutdown stop processing.
+                If ShutdownInProgress Then
+                    Logger.WriteInformation("Shutdown in Progress")
+                    Return
+                End If
+
+
                 Dim SB As New Text.StringBuilder
                 SB.EnsureCapacity(dataItems.Count * 300)
 

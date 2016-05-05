@@ -6,7 +6,7 @@
     <RootNamespace>P2P.Custom.ElasticSearch.Modules.Library</RootNamespace>
     <Name>P2P.Custom.ElasticSearch.Modules.Library</Name>
     <ManagementPackName>P2P.Custom.ElasticSearch.Modules.Library</ManagementPackName>
-    <Version>1.2.0.0</Version>
+    <Version>1.2.1.0</Version>
     <MpFrameworkVersion>v7.0.2</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
@@ -53,7 +53,10 @@
     </ManagementPackReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library.mpx">
+    <Compile Include="Data Publisher and subscriber.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Module Library.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ManagementPack.mpx">
@@ -67,9 +70,23 @@
     <Folder Include="Resources" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ElasticSearchManagedModules.dll">
+    <Content Include="Resources\Elasticsearch.Net.dll">
       <SubType>Content</SubType>
-    </EmbeddedResource>
+    </Content>
+    <Content Include="Resources\Nest.dll">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\Newtonsoft.Json.dll">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ManagedSCOMModules\ElasticSearch ManagedModules.vbproj">
+      <Name>ElasticSearch ManagedModules</Name>
+      <Project>{75af509f-1d65-440d-8b43-015bb83d9eba}</Project>
+      <Private>True</Private>
+      <PackageToBundle>True</PackageToBundle>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>

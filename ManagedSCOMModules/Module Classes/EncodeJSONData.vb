@@ -24,15 +24,7 @@ Public Class EncodeJSONData
     ''' <summary>
     ''' 'Shared objects are accessable from all instances
     ''' </summary>
-    Shared Logger As P2PLogging
-
-#Region "XML Element Names"
-
-    Private Const ConfigurationElementName As String = "Configuration"
-    Private Const ReturnMultipleItems As String = "ReturnMultipleItems"
-    Private Const ComputerNameTag As String = "ComputerName"
-
-#End Region
+    Shared Logger As P2PMapLogging
 
     ''' <summary>
     ''' Boolean value tracking if the module has been shutdown or not.
@@ -55,6 +47,14 @@ Public Class EncodeJSONData
     ''' <param name="previousState">Previous state of the module.  This must be null since this module never calls SaveState</param>
     Public Sub New(moduleHost As ModuleHost(Of JSONEncodedDataItem), configuration As XmlReader, previousState As Byte())
         MyBase.New(moduleHost)
+        ' Create the shutdown block
+        shutdownLock = New Object()
+
+        ' set the default
+        boolreturnMultipleItems = True
+
+        'Create the Classes we will use throughout the life of this module
+        Logger = New P2PMapLogging
 
         If moduleHost Is Nothing Then
             Logger.LogErrorDetails("Error moduleHost is null")
@@ -72,31 +72,27 @@ Public Class EncodeJSONData
             Throw New ArgumentOutOfRangeException("previousState")
         End If
 
-        ' Create the shutdown block
-        shutdownLock = New Object()
-
-        ' set the default
-        boolreturnMultipleItems = True
-
-        'Create the Classes we will use throughout the life of this module
-        Logger = New P2PLogging
-
+        Dim ComputerName As String
 
         Try
-            configuration.MoveToContent()
 
-            configuration.ReadStartElement(EncodeJSONData.ConfigurationElementName)
-            configuration.ReadStartElement(EncodeJSONData.ReturnMultipleItems)
-            boolreturnMultipleItems = configuration.ReadContentAsBoolean()
-            Dim ComputerName As String
-            configuration.ReadStartElement(EncodeJSONData.ReturnMultipleItems)
-            ComputerName = configuration.ReadContentAsString()
-            ElasticEncoder = New ElasticDocEncoder(ComputerName, Logger)
-            configuration.ReadEndElement()
-            configuration.ReadEndElement()
-        Catch xe As XmlException
-            Logger.LogErrorDetails([String].Format("Error configuration is invalid. {0}", configuration.ReadOuterXml()))
+            Dim XMLConfig As New XmlDocument
+            XMLConfig.Load(configuration)
+            Logger.WriteTrace("XML config is " + XMLConfig.OuterXml)
+
+            'Config data is pulled via Xpath, like in MPs
+            boolreturnMultipleItems = Boolean.Parse(XMLConfig.SelectSingleNode("/Configuration/ReturnMultipleItems").InnerText)
+            ComputerName = XMLConfig.SelectSingleNode("/Configuration/ComputerName").InnerText
+
+            Logger.WriteTrace([String].Format("Parsed Config for EncodeJSONData Constructor.  ReturnMultiple = {0}; Computer={1}", boolreturnMultipleItems.ToString(), ComputerName))
+        Catch xe As Exception
+            Logger.LogErrorDetails([String].Format("Error configuration is invalid. {0}", xe.Message))
             Throw New ModuleException("Invalid Xml Config received.", xe)
+        End Try
+        Try
+            ElasticEncoder = New ElasticDocEncoder(ComputerName, Logger)
+        Catch ex As Exception
+            Logger.LogErrorDetails("Failed to create Encoder", ex)
         Finally
             Logger.WriteTrace("Exiting EncodeJSONData Constructor")
         End Try
@@ -124,7 +120,7 @@ Public Class EncodeJSONData
             If boolshutdown Then
                 Return
             End If
-
+            Logger.WriteTrace("Starting EncodeJSONData Module")
             ' Request the first data batch.
             ModuleHost.RequestNextDataItem()
         End SyncLock
@@ -159,6 +155,7 @@ Public Class EncodeJSONData
         ' input data it doesn't make sense to request an ack on the
         ' output.
         Dim ackNeeded As Boolean = acknowledgedCallback IsNot Nothing
+        Logger.WriteTrace("Processing New Data Items")
 
         ' Acquire the lock guarding against shutdown.
         SyncLock shutdownLock

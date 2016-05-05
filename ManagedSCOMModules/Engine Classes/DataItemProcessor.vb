@@ -14,7 +14,7 @@ Public Class DataItemProcessor
         Logger = LoggerIn
     End Sub
 
-    Public Sub ProcessandLoadData(ByRef InboundDataItems As DataItemBase())
+    Public Sub ProcessandLoadData(ByVal InboundDataItems As DataItemBase())
 
         ''Logger.WriteTrace("Processing New Inbound DataItems as Windows Events")
 

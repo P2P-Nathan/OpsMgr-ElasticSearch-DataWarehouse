@@ -2,12 +2,13 @@
 
 Public Class ElasticDocEncoder
     Private ComputerName As String
-    Private Logger As P2PLogging
+    Private Logger As P2PMapLogging
     Private reader As Xml.XmlReader
     Private IndexPrefix As String
     Private XMLReaderDoc As New Xml.XmlDocument
-    Public Sub New(ComputerName As String, LoggerIn As P2PLogging)
+    Public Sub New(ComputerName_st As String, LoggerIn As P2PMapLogging)
         Logger = LoggerIn
+        ComputerName = ComputerName_st
     End Sub
 
     Friend Function EncodeSingleInsert(dataItem As DataItemBase) As String
@@ -53,7 +54,7 @@ Public Class ElasticDocEncoder
         Return SB
     End Function
 
-    Private Function GetTypeCastedDataItem(ByRef dataItem As DataItemBase, ByRef DataItemType As String) As Object
+    Private Function GetTypeCastedDataItem(ByVal dataItem As DataItemBase, ByVal DataItemType As String) As Object
         If DataItemType = "System.Performance.Data" Then
             Try
                 Return New PerfItemDataStructure(dataItem, ComputerName)

@@ -13,7 +13,7 @@ Public Structure PerfItemDataStructure
     Public Value As Double
     Public SampleCount As Integer
 
-    Public Sub New(ByRef dataitem As DataItemBase, Optional ByRef CompName As String = "") ', Logger As ETWLogging)
+    Public Sub New(ByVal dataitem As DataItemBase, Optional ByVal CompName As String = "") ', Logger As ETWLogging)
         sourceHealthServiceID = dataitem.SourceHealthServiceId
         TimeSampled = dataitem.DateCreated
         ComputerName = CompName

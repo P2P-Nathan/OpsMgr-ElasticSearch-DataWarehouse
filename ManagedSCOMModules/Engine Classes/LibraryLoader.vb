@@ -35,22 +35,27 @@ Public Class LibraryLoader
     End Function
 
     Public Sub LoadLibrariesFromResources()
-        If LoadLibrary("Elasticsearch.Net", "ManagedSCOMModule.Elasticsearch.Net.dll") Then
-            P2PLogging.WriteToEventLogInfo("Loaded Elasticsearch.Net successfully")
-        Else
-            P2PLogging.WriteToEventLogError("Failed to Load Elasticsearch.Net successfully")
-        End If
+        Try
+            If LoadLibrary("Elasticsearch.Net", "ElasticSearchManagedModules.Elasticsearch.Net.dll") Then
+                P2PLogging.WriteToEventLogInfo("Loaded Elasticsearch.Net successfully")
+            Else
+                P2PLogging.WriteToEventLogError("Failed to Load Elasticsearch.Net successfully")
+            End If
 
-        If LoadLibrary("Nest", "ManagedSCOMModule.Nest.dll") Then
-            P2PLogging.WriteToEventLogInfo("Loaded Nest successfully")
-        Else
-            P2PLogging.WriteToEventLogError("Failed to Load Nest successfully")
-        End If
+            If LoadLibrary("Nest", "ElasticSearchManagedModules.Nest.dll") Then
+                P2PLogging.WriteToEventLogInfo("Loaded Nest successfully")
+            Else
+                P2PLogging.WriteToEventLogError("Failed to Load Nest successfully")
+            End If
 
-        If LoadLibrary("Newtonsoft.Json", "ManagedSCOMModule.Newtonsoft.Json.dll") Then
-            P2PLogging.WriteToEventLogInfo("Loaded Newtonsoft.Json successfully")
-        Else
-            P2PLogging.WriteToEventLogError("Failed to Load Newtonsoft.Json successfully")
-        End If
+            If LoadLibrary("Newtonsoft.Json", "ElasticSearchManagedModules.Newtonsoft.Json.dll") Then
+                P2PLogging.WriteToEventLogInfo("Loaded Newtonsoft.Json successfully")
+            Else
+                P2PLogging.WriteToEventLogError("Failed to Load Newtonsoft.Json successfully")
+            End If
+        Catch ex As Exception
+            P2PLogging.LogErrorDetailsShare("Something went completly wrong when trying to Load Modules", ex)
+        End Try
+
     End Sub
 End Class

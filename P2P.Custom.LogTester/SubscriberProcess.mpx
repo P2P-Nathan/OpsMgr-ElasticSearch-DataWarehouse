@@ -1,7 +1,7 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Monitoring>
     <Rules>
-      <Rule ID="P2P.Custom.LogTester.ProcessProc.SplitProc.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessProc.SubscribeProc.SubscribeProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -17,15 +17,11 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
-            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
-            <TryBulkInsert>true</TryBulkInsert>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessWS.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessWS.SubscribeProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -41,15 +37,11 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
-            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
-            <TryBulkInsert>true</TryBulkInsert>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessVB.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessVB.SubscribeProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -65,15 +57,11 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
-            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
-            <TryBulkInsert>true</TryBulkInsert>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessID.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessID.SubscribeProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -89,15 +77,11 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
-            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
-            <TryBulkInsert>true</TryBulkInsert>
+ <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessIOperSec.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessIOperSec.SubscribeProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -113,15 +97,11 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
-            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
-            <TryBulkInsert>true</TryBulkInsert>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessPFB.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessPFB.SubscribeProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -137,15 +117,11 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
-            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
-            <TryBulkInsert>true</TryBulkInsert>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessPoolPage.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessPoolPage.SubscribeProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -161,15 +137,11 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
-            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
-            <TryBulkInsert>true</TryBulkInsert>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.Custom.LogTester.ProcessTC.SplitProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.Custom.LogTester.ProcessTC.SubscribeProc" Target="Windows!Microsoft.Windows.Server.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Perf!System.Performance.DataProvider">
@@ -185,11 +157,7 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
-            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
-            <TryBulkInsert>true</TryBulkInsert>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
           </WriteAction>
         </WriteActions>
       </Rule>

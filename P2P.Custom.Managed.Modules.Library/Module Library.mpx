@@ -4,7 +4,7 @@
       <DataType ID="P2P.DataItems.JSONEncodedData" Base="System!System.BaseData" Accessibility="Public">
         <Implementation>
           <Assembly>P2P.ManagedScomModules</Assembly>
-          <Type>ManagedSCOMModules.JSONEncodedDataItem</Type>
+          <Type>ElasticSearchManagedModules.JSONEncodedDataItem</Type>
         </Implementation>
       </DataType>
     </DataTypes>
@@ -17,7 +17,7 @@
         <ModuleImplementation>
           <Managed>
             <Assembly>P2P.ManagedScomModules</Assembly>
-            <Type>ManagedSCOMModules.EncodeJSONData</Type>
+            <Type>ElasticSearchManagedModules.EncodeJSONData</Type>
           </Managed>
         </ModuleImplementation>
         <OutputType>P2P.DataItems.JSONEncodedData</OutputType>
@@ -35,7 +35,7 @@
         <ModuleImplementation Isolation="Any">
           <Managed>
             <Assembly>P2P.ManagedScomModules</Assembly>
-            <Type>ManagedSCOMModules.PreparedJSON_WritetoES</Type>
+            <Type>ElasticSearchManagedModules.PreparedJSON_WritetoES</Type>
           </Managed>
         </ModuleImplementation>
         <InputType>P2P.DataItems.JSONEncodedData</InputType>
@@ -50,7 +50,7 @@
         <ModuleImplementation Isolation="OwnProcess">
           <Managed>
             <Assembly>P2P.ManagedScomModules</Assembly>
-            <Type>ManagedSCOMModules.WriteToES</Type>
+            <Type>ElasticSearchManagedModules.WriteToES</Type>
           </Managed>
         </ModuleImplementation>
         <InputType>System!System.BaseData</InputType>

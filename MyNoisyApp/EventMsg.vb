@@ -3,7 +3,7 @@
     Public ID As Integer
     Public Text As String
 
-    Public Sub New(ByRef Line As String)
+    Public Sub New(ByVal Line As String)
         Dim values = Line.Split(",")
         Application = values(0)
         ID = Integer.Parse(values(1))

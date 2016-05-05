@@ -28,7 +28,7 @@ Public Structure WinEventDataStructure
     Public ProcessId As Integer
     Public ThreadId As Integer
 
-    Public Sub New(ByRef dataitem As DataItemBase)
+    Public Sub New(ByVal dataitem As DataItemBase)
         EventDate = dataitem.DateCreated
         SourceHealthServiceID = dataitem.SourceHealthServiceId
         Dim reader As XmlReader = dataitem.GetItemXml()

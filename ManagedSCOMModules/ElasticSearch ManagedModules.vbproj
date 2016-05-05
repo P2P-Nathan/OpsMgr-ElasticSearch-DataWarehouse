@@ -88,6 +88,7 @@
     <Compile Include="Engine Classes\ElasticDocEncoder.vb" />
     <Compile Include="Engine Classes\ElasticSearchConnector.vb" />
     <Compile Include="Engine Classes\JSONEncodedDataItem.vb" />
+    <Compile Include="Engine Classes\P2PMapLogging.vb" />
     <Compile Include="Engine Classes\P2PLogging.vb" />
     <Compile Include="Engine Classes\LibraryLoader.vb" />
     <Compile Include="Engine Classes\PerfItemDataStructure.vb" />

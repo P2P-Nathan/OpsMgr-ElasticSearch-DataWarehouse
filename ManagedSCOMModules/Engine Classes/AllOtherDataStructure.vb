@@ -8,7 +8,7 @@ Public Structure AllOtherDataStructure
     Public DataItemTypeName As String
     Public Payload As XmlNode
 
-    Public Sub New(ByRef dataitem As DataItemBase, ByRef XmlDocReader As XmlDocument)
+    Public Sub New(ByVal dataitem As DataItemBase, ByVal XmlDocReader As XmlDocument)
         XmlDocReader.Load(dataitem.GetItemXml())
         SourceHealthServiceID = dataitem.SourceHealthServiceId
         DataItemDate = dataitem.DateCreated
