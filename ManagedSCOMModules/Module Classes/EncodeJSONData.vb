@@ -155,7 +155,7 @@ Public Class EncodeJSONData
         ' input data it doesn't make sense to request an ack on the
         ' output.
         Dim ackNeeded As Boolean = acknowledgedCallback IsNot Nothing
-        Logger.WriteTrace("Processing New Data Items")
+        'Logger.WriteTrace("Processing New Data Items")
 
         ' Acquire the lock guarding against shutdown.
         SyncLock shutdownLock
@@ -171,7 +171,7 @@ Public Class EncodeJSONData
             Dim JSONencodedString As String
             ' Dim Reader As XmlReader
 
-            ElasticEncoder.SetIndexPrefix(Now.ToString("yyyy-MM-dd"))
+            ElasticEncoder.SetIndexPrefix(Now.ToUniversalTime().ToString("yyyy.MM.dd.HH"))
             ' Loop through all input data items processing them
 
             For Each dataItem As DataItemBase In dataItems
@@ -179,8 +179,8 @@ Public Class EncodeJSONData
                 ' we should always check for MalformedDataItemException on
                 Try
                     JSONencodedString = ElasticEncoder.EncodeSingleInsert(dataItem)
-                    Logger.WriteTrace("Encoded as follow")
-                    Logger.WriteTrace(JSONencodedString)
+                    'Logger.WriteTrace("Encoded as follow")
+                    'Logger.WriteTrace(JSONencodedString)
 
                     ' if we return multiple itemas default just queue the new dataitem, if not build the output string allIn1Item
                     If boolreturnMultipleItems Then
@@ -229,6 +229,7 @@ Public Class EncodeJSONData
                     completionCallback(completionState)
                 End If
 
+                Threading.Thread.Sleep(15)
                 ModuleHost.RequestNextDataItem()
 
                 Return
@@ -266,6 +267,7 @@ Public Class EncodeJSONData
                 ' and then immediately request the next data items
                 ModuleHost.PostOutputDataItems(outputDataItems.ToArray(), logicalSet)
 
+                Threading.Thread.Sleep(15)
                 ModuleHost.RequestNextDataItem()
             End If
         End SyncLock

@@ -15,18 +15,19 @@ Public Structure PerfItemDataStructure
 
     Public Sub New(ByVal dataitem As DataItemBase, Optional ByVal CompName As String = "") ', Logger As ETWLogging)
         sourceHealthServiceID = dataitem.SourceHealthServiceId
-        TimeSampled = dataitem.DateCreated
+        'TimeSampled = dataitem.DateCreated
         ComputerName = CompName
         Dim reader As XmlReader = dataitem.GetItemXml()
-        Do While reader.Name <> "ObjectName"
+        Do While reader.Name <> "TimeSampled" And reader.Name IsNot Nothing
             reader.Read()
         Loop
-        If reader.Name = "ObjectName" Then ObjectName = reader.ReadElementContentAsString() : reader.Read() Else ObjectName = Nothing
-        If reader.Name = "CounterName" Then CounterName = reader.ReadElementContentAsString() : reader.Read() Else CounterName = Nothing
-        If reader.Name = "InstanceName" Then InstanceName = reader.ReadElementContentAsString() : reader.Read() Else InstanceName = Nothing
-        If reader.Name = "IsNull" Then IsNull = Boolean.Parse(reader.ReadElementContentAsString()) : reader.Read() Else IsNull = Nothing
-        If reader.Name = "Value" Then Value = Double.Parse(reader.ReadElementContentAsString()) : reader.Read() Else Value = Nothing
-        If reader.Name = "SampleCount" Then SampleCount = Integer.Parse(reader.ReadElementContentAsString()) : reader.Read() Else SampleCount = Nothing
+        If reader.Name = "TimeSampled" Then TimeSampled = reader.ReadElementContentAsDateTime() Else ObjectName = Nothing
+        If reader.Name = "ObjectName" Then ObjectName = reader.ReadElementContentAsString() Else ObjectName = Nothing
+        If reader.Name = "CounterName" Then CounterName = reader.ReadElementContentAsString() Else CounterName = Nothing
+        If reader.Name = "InstanceName" Then InstanceName = reader.ReadElementContentAsString() Else InstanceName = Nothing
+        If reader.Name = "IsNull" Then IsNull = Boolean.Parse(reader.ReadElementContentAsString()) Else IsNull = Nothing
+        If reader.Name = "Value" Then Value = Double.Parse(reader.ReadElementContentAsString()) Else Value = Nothing
+        If reader.Name = "SampleCount" Then SampleCount = Integer.Parse(reader.ReadElementContentAsString()) Else SampleCount = Nothing
         reader.Dispose()
     End Sub
 

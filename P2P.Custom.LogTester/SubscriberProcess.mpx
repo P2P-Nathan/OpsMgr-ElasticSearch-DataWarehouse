@@ -9,15 +9,11 @@
             <CounterName>% Processor Time</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>15</Frequency>
+            <Frequency>1</Frequency>
           </DataSource>
         </DataSources>
-        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
-          <ReturnMultipleItems>true</ReturnMultipleItems>
-          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
-        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishNonEncodedData">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -29,15 +25,11 @@
             <CounterName>Working Set</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>15</Frequency>
+            <Frequency>1</Frequency>
           </DataSource>
         </DataSources>
-        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
-          <ReturnMultipleItems>true</ReturnMultipleItems>
-          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
-        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishNonEncodedData">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -49,15 +41,11 @@
             <CounterName>Virtual Bytes</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>15</Frequency>
+            <Frequency>1</Frequency>
           </DataSource>
         </DataSources>
-        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
-          <ReturnMultipleItems>true</ReturnMultipleItems>
-          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
-        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishNonEncodedData">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -69,15 +57,11 @@
             <CounterName>ID Process</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>15</Frequency>
+            <Frequency>1</Frequency>
           </DataSource>
         </DataSources>
-        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
-          <ReturnMultipleItems>true</ReturnMultipleItems>
-          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
-        </ConditionDetection>
         <WriteActions>
- <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
+ <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishNonEncodedData">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -89,15 +73,11 @@
             <CounterName>IO Data Operations/sec</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>15</Frequency>
+            <Frequency>1</Frequency>
           </DataSource>
         </DataSources>
-        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
-          <ReturnMultipleItems>true</ReturnMultipleItems>
-          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
-        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishNonEncodedData">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -109,15 +89,11 @@
             <CounterName>Page File Bytes</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>15</Frequency>
+            <Frequency>1</Frequency>
           </DataSource>
         </DataSources>
-        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
-          <ReturnMultipleItems>true</ReturnMultipleItems>
-          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
-        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishNonEncodedData">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -129,15 +105,11 @@
             <CounterName>Pool Paged Bytes</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>15</Frequency>
+            <Frequency>1</Frequency>
           </DataSource>
         </DataSources>
-        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
-          <ReturnMultipleItems>true</ReturnMultipleItems>
-          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
-        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishNonEncodedData">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -149,15 +121,11 @@
             <CounterName>Thread Count</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>15</Frequency>
+            <Frequency>1</Frequency>
           </DataSource>
         </DataSources>
-        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
-          <ReturnMultipleItems>true</ReturnMultipleItems>
-          <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
-        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishNonEncodedData">
           </WriteAction>
         </WriteActions>
       </Rule>

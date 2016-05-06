@@ -38,16 +38,16 @@ Public Class ElasticDocEncoder
         SB.EnsureCapacity(300)
         SB.Append("{""index"":{""_index"":""")
         If dataItemType = "System.Performance.Data" Then
+            SB.Append("perf-")
             SB.Append(IndexPrefix)
-            SB.Append("_perf")
             SB.Append(""",""_type"":""winperf""}}")
         ElseIf dataItemType = "Microsoft.Windows.EventData" Then
+            SB.Append("winevent-")
             SB.Append(IndexPrefix)
-            SB.Append("_winevent")
             SB.Append(""",""_type"":""eventdata""}}")
         Else
+            SB.Append("other-")
             SB.Append(IndexPrefix)
-            SB.Append("_other")
             SB.Append(""",""_type"":""unknown""}}")
         End If
         SB.AppendLine()

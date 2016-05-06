@@ -122,9 +122,11 @@ Public NotInheritable Class PreparedJSON_WritetoES
 
                 ' Know that we have sent back both the completion and
                 ' ack we can request the next data item.
+                Threading.Thread.Sleep(100)
                 ModuleHost.RequestNextDataItem()
 
             Else
+                Threading.Thread.Sleep(100)
                 ModuleHost.RequestNextDataItem()
             End If
         End SyncLock
