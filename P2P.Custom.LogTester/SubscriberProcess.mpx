@@ -17,7 +17,7 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -37,7 +37,7 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -57,7 +57,7 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -77,7 +77,7 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
- <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+ <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -97,7 +97,7 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -117,7 +117,7 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -137,7 +137,7 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -157,7 +157,7 @@
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Custom.Library.PublishEncodedJSON">
           </WriteAction>
         </WriteActions>
       </Rule>
