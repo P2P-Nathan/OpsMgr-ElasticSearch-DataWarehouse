@@ -9,7 +9,7 @@
             <CounterName>% Processor Time</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>1</Frequency>
+            <Frequency>65</Frequency>
           </DataSource>
         </DataSources>
         <WriteActions>
@@ -25,7 +25,7 @@
             <CounterName>Working Set</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>1</Frequency>
+            <Frequency>65</Frequency>
           </DataSource>
         </DataSources>
         <WriteActions>
@@ -41,7 +41,7 @@
             <CounterName>Virtual Bytes</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>1</Frequency>
+            <Frequency>65</Frequency>
           </DataSource>
         </DataSources>
         <WriteActions>
@@ -57,7 +57,7 @@
             <CounterName>ID Process</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>1</Frequency>
+            <Frequency>65</Frequency>
           </DataSource>
         </DataSources>
         <WriteActions>
@@ -73,7 +73,7 @@
             <CounterName>IO Data Operations/sec</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>1</Frequency>
+            <Frequency>65</Frequency>
           </DataSource>
         </DataSources>
         <WriteActions>
@@ -89,7 +89,7 @@
             <CounterName>Page File Bytes</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>1</Frequency>
+            <Frequency>65</Frequency>
           </DataSource>
         </DataSources>
         <WriteActions>
@@ -105,7 +105,7 @@
             <CounterName>Pool Paged Bytes</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>1</Frequency>
+            <Frequency>65</Frequency>
           </DataSource>
         </DataSources>
         <WriteActions>
@@ -121,7 +121,7 @@
             <CounterName>Thread Count</CounterName>
             <ObjectName>Process</ObjectName>
             <AllInstances>true</AllInstances>
-            <Frequency>1</Frequency>
+            <Frequency>65</Frequency>
           </DataSource>
         </DataSources>
         <WriteActions>

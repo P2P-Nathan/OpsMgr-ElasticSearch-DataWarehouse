@@ -41,7 +41,7 @@
     </ManagementPackReference>
     <ManagementPackReference Include="System.Health.Library">
       <Alias>Health</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.Library">
       <Alias>System</Alias>
@@ -59,6 +59,12 @@
     </ManagementPackReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DW Changes Steam.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DW Discovery Data.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="EventCollector.mpx">
       <SubType>Code</SubType>
     </Compile>

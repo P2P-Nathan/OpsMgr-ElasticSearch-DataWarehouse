@@ -1,14 +1,15 @@
 ﻿Imports Microsoft.EnterpriseManagement.HealthService
 
 Public Class ElasticDocEncoder
-    Private ComputerName As String
+    Private ConfigData As JSONEncoderConfig
     Private Logger As P2PMapLogging
     Private reader As Xml.XmlReader
-    Private IndexPrefix As String
+    Private IndexSuffix As String
     Private XMLReaderDoc As New Xml.XmlDocument
-    Public Sub New(ComputerName_st As String, LoggerIn As P2PMapLogging)
+
+    Public Sub New(Conf As JSONEncoderConfig, LoggerIn As P2PMapLogging)
+        ConfigData = Conf
         Logger = LoggerIn
-        ComputerName = ComputerName_st
     End Sub
 
     Friend Function EncodeSingleInsert(dataItem As DataItemBase) As String
@@ -30,24 +31,24 @@ Public Class ElasticDocEncoder
 
     End Function
 
-    Friend Sub SetIndexPrefix(NewPrefix As String)
-        IndexPrefix = NewPrefix.ToLower().Replace(" ", "_")
+    Friend Sub SetIndexSuffix(NewSuffix As String)
+        IndexSuffix = NewSuffix.ToLower().Replace(" ", "_")
     End Sub
     Private Function GetIndexHeader(dataItemType As String) As Text.StringBuilder
         Dim SB As New Text.StringBuilder
         SB.EnsureCapacity(300)
         SB.Append("{""index"":{""_index"":""")
         If dataItemType = "System.Performance.Data" Then
-            SB.Append("perf-")
-            SB.Append(IndexPrefix)
+            SB.Append(ConfigData.PerfItemPrefix)
+            SB.Append(IndexSuffix)
             SB.Append(""",""_type"":""winperf""}}")
         ElseIf dataItemType = "Microsoft.Windows.EventData" Then
-            SB.Append("winevent-")
-            SB.Append(IndexPrefix)
+            SB.Append(ConfigData.WinEventPrefix)
+            SB.Append(IndexSuffix)
             SB.Append(""",""_type"":""eventdata""}}")
         Else
-            SB.Append("other-")
-            SB.Append(IndexPrefix)
+            SB.Append(ConfigData.OtherItemPrefix)
+            SB.Append(IndexSuffix)
             SB.Append(""",""_type"":""unknown""}}")
         End If
         SB.AppendLine()
@@ -57,7 +58,7 @@ Public Class ElasticDocEncoder
     Private Function GetTypeCastedDataItem(ByVal dataItem As DataItemBase, ByVal DataItemType As String) As Object
         If DataItemType = "System.Performance.Data" Then
             Try
-                Return New PerfItemDataStructure(dataItem, ComputerName)
+                Return New PerfItemDataStructure(dataItem, ConfigData.ComputerName)
             Catch ex As Exception
                 'Maybe it was nothing?
                 Logger.LogErrorDetails("Failed to Created Perf Item", ex)

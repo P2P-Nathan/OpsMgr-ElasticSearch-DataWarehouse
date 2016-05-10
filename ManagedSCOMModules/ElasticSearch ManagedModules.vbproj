@@ -84,14 +84,16 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine Classes\AllOtherDataStructure.vb" />
+    <Compile Include="Data Structures\AllOtherDataStructure.vb" />
+    <Compile Include="Data Structures\ESWriterConfig.vb" />
+    <Compile Include="Data Structures\JSONEncoderConfig.vb" />
     <Compile Include="Engine Classes\ElasticDocEncoder.vb" />
     <Compile Include="Engine Classes\ElasticSearchConnector.vb" />
     <Compile Include="Engine Classes\JSONEncodedDataItem.vb" />
     <Compile Include="Engine Classes\P2PMapLogging.vb" />
     <Compile Include="Engine Classes\P2PLogging.vb" />
     <Compile Include="Engine Classes\LibraryLoader.vb" />
-    <Compile Include="Engine Classes\PerfItemDataStructure.vb" />
+    <Compile Include="Data Structures\PerfItemDataStructure.vb" />
     <Compile Include="Module Classes\EncodeJSONData.vb" />
     <Compile Include="Module Classes\PreparedJSON_WritetoES.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -110,7 +112,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Engine Classes\DataItemProcessor.vb" />
-    <Compile Include="Engine Classes\WinEventDataStructure.vb" />
+    <Compile Include="Data Structures\WinEventDataStructure.vb" />
     <Compile Include="Module Classes\WriteToES.vb" />
   </ItemGroup>
   <ItemGroup>

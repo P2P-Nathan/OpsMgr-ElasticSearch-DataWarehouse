@@ -66,7 +66,7 @@ Public NotInheritable Class PreparedJSON_WritetoES
 
             'Extract from Config what we need and initiate the connections.
             Dim InstanceConfig As ParsedConfigData
-            InstanceConfig = ExtractConfigData(configuration)
+            InstanceConfig = New ParsedConfigData(configuration, True)
 
             'Create the Classes we will use throughout the life of this module
 
@@ -145,34 +145,6 @@ Public NotInheritable Class PreparedJSON_WritetoES
         End Using
     End Function
 
-    Private Function ExtractConfigData(configuration As XmlReader) As ParsedConfigData
-        Dim ReturnData As New ParsedConfigData
 
-        Try
-            'Try to read our configuration elements 
-            Dim XMLConfig As New XmlDocument
-            XMLConfig.Load(configuration)
-            Logger.WriteTrace("XML config is " + XMLConfig.OuterXml)
-
-            'Config data is pulled via Xpath, like in MPs
-            ReturnData.ESNode = XMLConfig.SelectSingleNode("/Configuration/ElasticSearchNode").InnerText
-            ReturnData.WinEvtIndex = XMLConfig.SelectSingleNode("/Configuration/WinEventIndex").InnerText
-            ReturnData.OtherIndex = XMLConfig.SelectSingleNode("/Configuration/AllOtherIndex").InnerText
-            Logger.WriteTrace("Parsed Config--- Node = " + ReturnData.ESNode + "; WinEvtIndex = " + ReturnData.WinEvtIndex + "; AllOtherIndex = " + ReturnData.OtherIndex)
-        Catch ex As Exception
-            Logger.WriteError("Failed to read the configuration as start")
-            Logger.LogErrorDetails(ex.ToString, ex)
-            Throw New Exception("We cant's start, configuration could not be parsed.")
-        End Try
-
-        Return ReturnData
-
-    End Function
-
-    Private Structure ParsedConfigData
-        Public ESNode As String
-        Public WinEvtIndex As String
-        Public OtherIndex As String
-    End Structure
 End Class
 

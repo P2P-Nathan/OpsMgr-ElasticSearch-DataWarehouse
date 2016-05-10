@@ -9,10 +9,6 @@ Imports Microsoft.Win32
 Public Class EncodeJSONData
     '   Portion of Code Sourced from https://scommm.codeplex.com/
     Inherits ModuleBase(Of JSONEncodedDataItem)
-    ''' <summary>
-    ''' Keep track if we must return a single data item or a collection of data items
-    ''' </summary>
-    Private ReadOnly boolreturnMultipleItems As Boolean
 
     ''' <summary>
     ''' Object we use for doing locking to check to see if we have been
@@ -20,6 +16,7 @@ Public Class EncodeJSONData
     ''' </summary>
     Private ReadOnly shutdownLock As Object
 
+    Private ConfigData As JSONEncoderConfig
 
     ''' <summary>
     ''' 'Shared objects are accessable from all instances
@@ -50,9 +47,6 @@ Public Class EncodeJSONData
         ' Create the shutdown block
         shutdownLock = New Object()
 
-        ' set the default
-        boolreturnMultipleItems = True
-
         'Create the Classes we will use throughout the life of this module
         Logger = New P2PMapLogging
 
@@ -72,25 +66,15 @@ Public Class EncodeJSONData
             Throw New ArgumentOutOfRangeException("previousState")
         End If
 
-        Dim ComputerName As String
-
         Try
-
-            Dim XMLConfig As New XmlDocument
-            XMLConfig.Load(configuration)
-            Logger.WriteTrace("XML config is " + XMLConfig.OuterXml)
-
-            'Config data is pulled via Xpath, like in MPs
-            boolreturnMultipleItems = Boolean.Parse(XMLConfig.SelectSingleNode("/Configuration/ReturnMultipleItems").InnerText)
-            ComputerName = XMLConfig.SelectSingleNode("/Configuration/ComputerName").InnerText
-
-            Logger.WriteTrace([String].Format("Parsed Config for EncodeJSONData Constructor.  ReturnMultiple = {0}; Computer={1}", boolreturnMultipleItems.ToString(), ComputerName))
+            ConfigData = New JSONEncoderConfig(configuration)
+            Logger.WriteTrace([String].Format("Parsed Config for EncodeJSONData Constructor.  ReturnMultiple = {0}; Computer={1}; DateRollingFormat = {2};", ConfigData.ReturnMultipleItems.ToString(), ConfigData.ComputerName, ConfigData.DateRollingFormat))
         Catch xe As Exception
             Logger.LogErrorDetails([String].Format("Error configuration is invalid. {0}", xe.Message))
             Throw New ModuleException("Invalid Xml Config received.", xe)
         End Try
         Try
-            ElasticEncoder = New ElasticDocEncoder(ComputerName, Logger)
+            ElasticEncoder = New ElasticDocEncoder(ConfigData, Logger)
         Catch ex As Exception
             Logger.LogErrorDetails("Failed to create Encoder", ex)
         Finally
@@ -171,7 +155,12 @@ Public Class EncodeJSONData
             Dim JSONencodedString As String
             ' Dim Reader As XmlReader
 
-            ElasticEncoder.SetIndexPrefix(Now.ToUniversalTime().ToString("yyyy.MM.dd.HH"))
+            If ConfigData.EnableDateRolling Then
+                ElasticEncoder.SetIndexSuffix(Now.ToUniversalTime().ToString(ConfigData.DateRollingFormat))
+            Else
+                ElasticEncoder.SetIndexSuffix("")
+            End If
+
             ' Loop through all input data items processing them
 
             For Each dataItem As DataItemBase In dataItems
@@ -183,7 +172,7 @@ Public Class EncodeJSONData
                     'Logger.WriteTrace(JSONencodedString)
 
                     ' if we return multiple itemas default just queue the new dataitem, if not build the output string allIn1Item
-                    If boolreturnMultipleItems Then
+                    If ConfigData.ReturnMultipleItems Then
                         Dim outputDataItem As New JSONEncodedDataItem(JSONencodedString)
                         'reader = outputDataItem.GetItemXml()
                         'reader.MoveToContent()
@@ -208,7 +197,7 @@ Public Class EncodeJSONData
                 End Try
             Next
 
-            If Not boolreturnMultipleItems AndAlso Not [String].IsNullOrEmpty(allDataItemsOneString) Then
+            If Not ConfigData.ReturnMultipleItems AndAlso Not [String].IsNullOrEmpty(allDataItemsOneString) Then
                 'if we need to return a single item
                 Try
                     Dim outputDataItem As New JSONEncodedDataItem(allDataItemsOneString)

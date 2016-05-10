@@ -11,8 +11,13 @@
     <ModuleTypes>
       <ConditionDetectionModuleType ID="P2P.Library.PrepareJSONDocumentry" Accessibility="Public" Batching="true">
         <Configuration>
+          <xsd:element name="PerfItemPrefix" type="xsd:string" />
+          <xsd:element name="WinEventPrefix" type="xsd:string" />
+          <xsd:element name="OtherItemPrefix" type="xsd:string" />
+          <xsd:element name="EnableDateRolling" type="xsd:boolean" />
+          <xsd:element name="DateRollingFormat" type="xsd:string" />
           <xsd:element name="ReturnMultipleItems" type="xsd:boolean" />
-          <xsd:element name="ComputerName" type="xsd:string" />
+          <xsd:element name="ComputerName" type="xsd:string" />      
         </Configuration>
         <ModuleImplementation>
           <Managed>
@@ -28,8 +33,6 @@
       <WriteActionModuleType ID="P2P.Library.WritePreparedJSONElasticSearch" Accessibility="Public" Batching="true">
         <Configuration>
           <xsd:element name="ElasticSearchNode" type="xsd:string" />
-          <xsd:element name="WinEventIndex" type="xsd:string" />
-          <xsd:element name="AllOtherIndex" type="xsd:string" />
           <xsd:element name="TryBulkInsert" type="xsd:boolean" />
         </Configuration>
         <ModuleImplementation Isolation="Any">

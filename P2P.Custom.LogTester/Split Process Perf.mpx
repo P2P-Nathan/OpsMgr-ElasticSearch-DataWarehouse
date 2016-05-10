@@ -13,14 +13,17 @@
           </DataSource>
         </DataSources>
         <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>allother-dt-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
           <ReturnMultipleItems>true</ReturnMultipleItems>
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
           <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
             <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
@@ -37,14 +40,17 @@
           </DataSource>
         </DataSources>
         <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>allother-dt-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
           <ReturnMultipleItems>true</ReturnMultipleItems>
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
           <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
             <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
@@ -61,14 +67,17 @@
           </DataSource>
         </DataSources>
         <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>allother-dt-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
           <ReturnMultipleItems>true</ReturnMultipleItems>
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
           <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
             <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
@@ -85,14 +94,17 @@
           </DataSource>
         </DataSources>
         <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>allother-dt-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
           <ReturnMultipleItems>true</ReturnMultipleItems>
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
           <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
             <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
@@ -109,14 +121,17 @@
           </DataSource>
         </DataSources>
         <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>allother-dt-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
           <ReturnMultipleItems>true</ReturnMultipleItems>
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
           <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
             <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
@@ -133,14 +148,17 @@
           </DataSource>
         </DataSources>
         <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+           <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>allother-dt-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
           <ReturnMultipleItems>true</ReturnMultipleItems>
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
           <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
             <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
@@ -157,14 +175,17 @@
           </DataSource>
         </DataSources>
         <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>allother-dt-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
           <ReturnMultipleItems>true</ReturnMultipleItems>
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
           <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
             <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
@@ -181,14 +202,17 @@
           </DataSource>
         </DataSources>
         <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>allother-dt-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
           <ReturnMultipleItems>true</ReturnMultipleItems>
           <ComputerName>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
         </ConditionDetection>
         <WriteActions>
           <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
             <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
-            <WinEventIndex>SCOMWinEvents</WinEventIndex>
-            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
             <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>

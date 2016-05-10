@@ -1,0 +1,17 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <ModuleTypes>
+    <DataSourceModuleType ID="Microsoft.SystemCenter.DiscoveryDataReader" Comment="Reads discovery information from JET table for Discovery Manager" Accessibility="Internal" Batching="false">
+      <Configuration>
+        <xsd:element name="ManagementGroup" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+      </Configuration>
+      <ModuleImplementation Isolation="Any">
+        <Native>
+          <ClassID>41DF4214-1161-42BE-8711-9FC9B5D076FF</ClassID>
+        </Native>
+      </ModuleImplementation>
+      <OutputType>System!System.Discovery.Data</OutputType>
+    </DataSourceModuleType>
+    </ModuleTypes>
+  </TypeDefinitions>
+</ManagementPackFragment>
