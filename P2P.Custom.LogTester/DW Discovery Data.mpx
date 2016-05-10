@@ -1,17 +1,61 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <TypeDefinitions>
     <ModuleTypes>
-    <DataSourceModuleType ID="Microsoft.SystemCenter.DiscoveryDataReader" Comment="Reads discovery information from JET table for Discovery Manager" Accessibility="Internal" Batching="false">
-      <Configuration>
-        <xsd:element name="ManagementGroup" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
-      </Configuration>
-      <ModuleImplementation Isolation="Any">
-        <Native>
-          <ClassID>41DF4214-1161-42BE-8711-9FC9B5D076FF</ClassID>
-        </Native>
-      </ModuleImplementation>
-      <OutputType>System!System.Discovery.Data</OutputType>
-    </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DataCollectors.PublishedDiscoveryDataProvider" Comment="provides the discovery data published on the agent" Accessibility="Internal" Batching="false">
+        <Configuration />
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="DS1" TypeID="P2P.DataCollectors.PublishedDiscoveryDataProviderInternal">
+                <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+                <ChannelId>880F70D2-0E7A-4e55-9D9A-0A581049B756</ChannelId>
+              </DataSource>
+            </MemberModules>
+            <Composition>
+              <Node ID="DS1" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DataCollectors.PublishedDiscoveryDataProviderInternal" Comment="provides the data published on a certain channel for discovery data" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <xsd:element name="ManagementGroupId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ChannelId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Native>
+            <ClassID>8DB8C3B0-3AB0-494a-A09B-5F3643CC27A7</ClassID>
+          </Native>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+      </DataSourceModuleType>
     </ModuleTypes>
   </TypeDefinitions>
+  <Monitoring>
+    <Rules>
+      <Rule ID="P2P.CollectData.DiscoveredItems" ConfirmDelivery="true" Enabled="false" Priority="Normal" DiscardLevel="55" Remotable="true" Target="SC!Microsoft.SystemCenter.HealthService">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="DataSource" TypeID="P2P.DataCollectors.PublishedDiscoveryDataProvider">
+          </DataSource>
+        </DataSources>
+        <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>DiscoveryData-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
+        <WriteActions>
+          <WriteAction ID="WriteToES" TypeID="PCMML!P2P.Library.WritePreparedJSONElasticSearch" Target="SC!Microsoft.SystemCenter.CollectionManagementServer">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+    </Rules>
+  </Monitoring>
 </ManagementPackFragment>

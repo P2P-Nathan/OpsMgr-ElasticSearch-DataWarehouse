@@ -1,0 +1,641 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+     <Rules>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectAlertData" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="P2P.DWCollection.DataWarehouse.AlertDataSource">
+            <ExpirationStartTime>2005-01-01T00:00Z</ExpirationStartTime>
+            <PollingIntervalMinutes>3</PollingIntervalMinutes>
+            <LanguageCode>ENU</LanguageCode>
+            <BatchSize>1000</BatchSize>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.AlertDataWriterDefaultRouting">
+            <BulkInsertBatchSize>1500</BulkInsertBatchSize>
+            <MaxBatchesToProcessBeforeMaintenanceCount>1</MaxBatchesToProcessBeforeMaintenanceCount>
+            <MaxExecutionAttemptCount>0</MaxExecutionAttemptCount>
+            <ExecutionAttemptTimeoutIntervalSeconds>0</ExecutionAttemptTimeoutIntervalSeconds>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Event" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouseConnectorServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>EventCollection</Category>
+        <DataSources>
+          <DataSource ID="EventDS" TypeID="Windows!Microsoft.Windows.EventProvider">
+            <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <LogName>Operations Manager</LogName>
+            <Expression>
+              <And>
+                <Expression>
+                  <SimpleExpression>
+                    <ValueExpression>
+                      <XPathQuery>PublisherName</XPathQuery>
+                    </ValueExpression>
+                    <Operator>Equal</Operator>
+                    <ValueExpression>
+                      <Value>Health Service Modules</Value>
+                    </ValueExpression>
+                  </SimpleExpression>
+                </Expression>
+                <Expression>
+                  <SimpleExpression>
+                    <ValueExpression>
+                      <XPathQuery>EventCategory</XPathQuery>
+                    </ValueExpression>
+                    <Operator>Equal</Operator>
+                    <ValueExpression>
+                      <Value>3</Value>
+                    </ValueExpression>
+                  </SimpleExpression>
+                </Expression>
+              </And>
+            </Expression>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectEvent" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishEventData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.AvgBatchProcessingTime" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Avg. Batch Processing Time, ms</CounterName>
+            <ObjectName>OpsMgr DW Synchronization Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>5</Tolerance>
+            <ToleranceType>Percentage</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.AvgBatchSize" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Avg. Batch Size</CounterName>
+            <ObjectName>OpsMgr DW Synchronization Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>5</Tolerance>
+            <ToleranceType>Percentage</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.BatchAge" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Batch Age, sec</CounterName>
+            <ObjectName>OpsMgr DW Synchronization Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>5</Tolerance>
+            <ToleranceType>Percentage</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.BatchesPerSecond" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Batches/sec</CounterName>
+            <ObjectName>OpsMgr DW Synchronization Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>5</Tolerance>
+            <ToleranceType>Percentage</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.BatchSize" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Batch Size</CounterName>
+            <ObjectName>OpsMgr DW Synchronization Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>5</Tolerance>
+            <ToleranceType>Percentage</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.DataItemsPerSecond" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Data Items/sec</CounterName>
+            <ObjectName>OpsMgr DW Synchronization Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>5</Tolerance>
+            <ToleranceType>Percentage</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.ErrorsPerSecond" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Errors/sec</CounterName>
+            <ObjectName>OpsMgr DW Synchronization Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>5</Tolerance>
+            <ToleranceType>Percentage</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.TotalErrorCount" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>.</ComputerName>
+            <CounterName>Total Error Count</CounterName>
+            <ObjectName>OpsMgr DW Synchronization Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>10</Tolerance>
+            <ToleranceType>Absolute</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Writer.AvgBatchProcessingTime" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouseConnectorServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <CounterName>Avg. Batch Processing Time, ms</CounterName>
+            <ObjectName>OpsMgr DW Writer Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>5</Tolerance>
+            <ToleranceType>Percentage</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Writer.AvgBatchSize" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouseConnectorServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <CounterName>Avg. Batch Size</CounterName>
+            <ObjectName>OpsMgr DW Writer Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>5</Tolerance>
+            <ToleranceType>Percentage</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Writer.BatchesPerSecond" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouseConnectorServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <CounterName>Batches/sec</CounterName>
+            <ObjectName>OpsMgr DW Writer Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>5</Tolerance>
+            <ToleranceType>Percentage</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Writer.DataItemsPerSecond" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouseConnectorServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <CounterName>Data Items/sec</CounterName>
+            <ObjectName>OpsMgr DW Writer Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>5</Tolerance>
+            <ToleranceType>Percentage</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Writer.DroppedBatchCount" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouseConnectorServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <CounterName>Dropped Batch Count</CounterName>
+            <ObjectName>OpsMgr DW Writer Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>10</Tolerance>
+            <ToleranceType>Absolute</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Writer.DroppedDataItemCount" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouseConnectorServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <CounterName>Dropped Data Item Count</CounterName>
+            <ObjectName>OpsMgr DW Writer Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>10000</Tolerance>
+            <ToleranceType>Absolute</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Writer.ErorrsPerSecond" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouseConnectorServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <CounterName>Errors/sec</CounterName>
+            <ObjectName>OpsMgr DW Writer Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>5</Tolerance>
+            <ToleranceType>Percentage</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Writer.TotalErrorCount" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouseConnectorServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>PerformanceCollection</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
+            <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/NetworkName$</ComputerName>
+            <CounterName>Total Error Count</CounterName>
+            <ObjectName>OpsMgr DW Writer Module</ObjectName>
+            <InstanceName />
+            <AllInstances>true</AllInstances>
+            <Frequency>180</Frequency>
+            <Tolerance>10</Tolerance>
+            <ToleranceType>Absolute</ToleranceType>
+            <MaximumSampleSeparation>10</MaximumSampleSeparation>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
+          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.Deployment.Component" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="ComponentDeploymentSource" TypeID="P2P.DWCollection.DataWarehouse.Deployment.ComponentDataSource">
+            <DeploymentOperationListFrequencySeconds>20</DeploymentOperationListFrequencySeconds>
+            <DeploymentAttemptIntervalSeconds>300</DeploymentAttemptIntervalSeconds>
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Deployment.ComponentDeployer">
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.Deployment.Report" Enabled="false" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="DeployedComponentMPListDataSource" TypeID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.DeployedComponentManagementPackDataSource">
+            <ManagementPackListFrequencySeconds>60</ManagementPackListFrequencySeconds>
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </DataSource>
+          <DataSource ID="ReportingComponentContainingMPListDataSource" TypeID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.ReportingComponentContainingManagementPackDataSource">
+            <ManagementPackListFrequencySeconds>55</ManagementPackListFrequencySeconds>
+          </DataSource>
+          <DataSource ID="DeployedMPListDataSource" TypeID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.DeployedManagementPackDataSource">
+            <ManagementPackListFrequencySeconds>50</ManagementPackListFrequencySeconds>
+          </DataSource>
+        </DataSources>
+        <ConditionDetection ID="CorrelatingCondition" TypeID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.ReportDeploymentCondition" />
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Deployment.ReportDeployer" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.StandardDataSetMaintenance" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.StandardDataSet" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="Timer" TypeID="P2P.DWCollection.DataWarehouse.StandardDataSetMaintenanceTimerDataSource">
+            <MaintenanceFrequencySeconds>60</MaintenanceFrequencySeconds>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.StandardDataSetMaintenanceAction">
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <DataSetId>$Target/Property[Type="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.DataSet"]/InstanceGuid$</DataSetId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.Configuration" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="ConfigDataSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.ConfigurationDataSource">
+            <ProbeFrequencySeconds>30</ProbeFrequencySeconds>
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.ConfigurationChangeWriter">
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.DomainSnapshot" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="DomainSnapshotSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.DomainSnapshotDataSource">
+            <DomainSnapshotQueryFrequencySeconds>60</DomainSnapshotQueryFrequencySeconds>
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.DomainSnapshotWriter">
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.HealthServiceOutage" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="HealthServiceOutageSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.HealthServiceOutageDataSource">
+            <BatchSize>100</BatchSize>
+            <BatchGenerationFrequencySeconds>30</BatchGenerationFrequencySeconds>
+            <HealthServiceOutageEndMaxAgeMinutes>15</HealthServiceOutageEndMaxAgeMinutes>
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.HealthServiceOutageWriter">
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.MaintenanceMode" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="MaintenanceModeSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.MaintenanceModeDataSource">
+            <BatchSize>100</BatchSize>
+            <BatchGenerationFrequencySeconds>30</BatchGenerationFrequencySeconds>
+            <MaintenanceModeEndMaxAgeMinutes>15</MaintenanceModeEndMaxAgeMinutes>
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.MaintenanceModeWriter">
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.ManagedEntity" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="ManagedEntityChangeDataSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.ManagedEntityDataSource">
+            <BatchSize>100</BatchSize>
+            <BatchGenerationFrequencySeconds>30</BatchGenerationFrequencySeconds>
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.ManagedEntityChangeWriter">
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.MonitorInitialState" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="MonitorInitialStateDataSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.MonitorInitialStateDataSource">
+            <BatchSize>100</BatchSize>
+            <BatchGenerationFrequencySeconds>30</BatchGenerationFrequencySeconds>
+            <LastStateChangeToTransferOffsetMinutes>15</LastStateChangeToTransferOffsetMinutes>
+            <StateChangeMaxAgeMinutes>15</StateChangeMaxAgeMinutes>
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.EntityHealthStateChangeDataWriterDefaultRouting" />
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.Relationship" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="RelationshipChangeDataSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.RelationshipDataSource">
+            <BatchSize>100</BatchSize>
+            <BatchGenerationFrequencySeconds>30</BatchGenerationFrequencySeconds>
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.RelationshipChangeWriter">
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.TypedManagedEntity" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="TypedManagedEntitySource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.TypeManagedEntityDataSource">
+            <BatchSize>100</BatchSize>
+            <BatchGenerationFrequencySeconds>30</BatchGenerationFrequencySeconds>
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.TypedManagedEntityWriter">
+            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
+            <SqlAuthentication>
+              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+            </SqlAuthentication>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+    </Rules>
+  </Monitoring>
+</ManagementPackFragment>

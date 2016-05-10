@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{db069afa-1c0a-4ea4-9513-b31891f4a793}</ProjectGuid>
+    <RootNamespace>Microsoft.SystemCenter.DataWarehouse.Internal</RootNamespace>
+    <Name>P2P.DWCollections.DataWarehouse.Internal</Name>
+    <ManagementPackName>P2P.DWCollection.DataWarehouse.Internal</ManagementPackName>
+    <Version>7.1.10226.0</Version>
+    <MpFrameworkVersion>v7.0.2</MpFrameworkVersion>
+    <MpFrameworkProfile>OM</MpFrameworkProfile>
+    <ProductVersion>1.1.0.0</ProductVersion>
+    <GenerateSealed>True</GenerateSealed>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <GenerateSealed>false</GenerateSealed>
+    <Company>MyCompany</Company>
+    <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
+    <DelaySigning>false</DelaySigning>
+    <AssemblyOriginatorKeyFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+    <DelaySigning>false</DelaySigning>
+    <Company>MyCompany</Company>
+    <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>P2P_Collaborators.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="DataSources.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataTypes.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Discoveries.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityTypes.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Rules.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Scraps.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProbeActions.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ManagementPackReference Include="Microsoft.SystemCenter.2007">
+      <HintPath>\\chr100\pool\EnterpriseMonitoring\OpsMgr\MPRepository\ManagmentPacks\Microsoft SystemCenter 2007\7.1.10226.0\Microsoft.SystemCenter.2007.mp</HintPath>
+      <Alias>SystemCenter2007</Alias>
+      <MinVersion>7.1.10226.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.DataWarehouse.Internal">
+      <HintPath>G:\EnterpriseMonitoring\OpsMgr\MPRepository\ManagmentPacks\Microsoft SystemCenter DataWarehouse Internal\7.1.10226.0\Microsoft.SystemCenter.DataWarehouse.Internal.mp</HintPath>
+      <Alias>DWInternal</Alias>
+      <MinVersion>7.1.10226.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.DataWarehouse.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\Microsoft.SystemCenter.DataWarehouse.Library.mp</HintPath>
+      <Alias>DataWarehouse</Alias>
+      <MinVersion>7.1.10226.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.Internal">
+      <HintPath>\\chr100\pool\EnterpriseMonitoring\OpsMgr\MPRepository\ManagmentPacks\Microsoft SystemCenter Internal\7.0.8433.0\Microsoft.SystemCenter.Internal.mp</HintPath>
+      <Alias>SystemCenterInternal</Alias>
+      <MinVersion>7.0.8433.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\Microsoft.SystemCenter.Library.mp</HintPath>
+      <Alias>SystemCenter</Alias>
+      <MinVersion>7.0.8433.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.Windows.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\Microsoft.Windows.Library.mp</HintPath>
+      <Alias>Windows</Alias>
+      <MinVersion>7.5.8501.0</MinVersion>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Health.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Health.Library.mp</HintPath>
+      <Alias>Health</Alias>
+      <MinVersion>7.0.8433.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Library.mp</HintPath>
+      <Alias>System</Alias>
+      <MinVersion>7.5.8501.0</MinVersion>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Performance.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Performance.Library.mp</HintPath>
+      <Alias>Performance</Alias>
+      <MinVersion>7.0.8433.0</MinVersion>
+    </ManagementPackReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\P2P.Custom.Managed.Modules.Library\P2P.Custom.Managed.Modules.Library.mpproj">
+      <Name>P2P.Custom.Managed.Modules.Library</Name>
+      <Project>{0aeb99a3-f1da-43eb-86f8-fb44b72789d2}</Project>
+      <Private>True</Private>
+      <Alias>P2PElastic</Alias>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Datasources" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
+</Project>

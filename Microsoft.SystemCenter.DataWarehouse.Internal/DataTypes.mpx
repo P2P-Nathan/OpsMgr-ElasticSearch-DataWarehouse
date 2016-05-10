@@ -1,0 +1,78 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <DataTypes>
+        <DataType ID="P2P.DWCollection.ConfigurationChangeData" Accessibility="Internal" Base="System!System.BaseData">
+          <Implementation>
+            <Assembly>Res.Microsoft.SystemCenter.ConfigurationChangeData</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.ConfigChangeDataItem</Type>
+          </Implementation>
+        </DataType>
+        <DataType ID="P2P.DWCollection.DataWarehouse.DeploymentOperationData" Accessibility="Internal" Base="System!System.BaseData">
+          <Implementation>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.DeploymentOperationData</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.DeploymentOperationDataItem</Type>
+          </Implementation>
+        </DataType>
+        <DataType ID="P2P.DWCollection.DeploymentManagementPacksData" Accessibility="Internal" Base="System!System.BaseData">
+          <Implementation>
+            <Assembly>Res.Microsoft.SystemCenter.DeploymentManagementPacksData</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.DeploymentManagementPackListDataItem</Type>
+          </Implementation>
+        </DataType>
+        <DataType ID="P2P.DWCollection.DomainSnapshotData" Accessibility="Internal" Base="System!System.BaseData">
+          <Implementation>
+            <Assembly>Res.Microsoft.SystemCenter.DomainSnapshotData</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.DomainSnapshotDataItem</Type>
+          </Implementation>
+        </DataType>
+        <DataType ID="P2P.DWCollection.HealthServiceOutageData" Accessibility="Internal" Base="System!System.BaseData">
+          <Implementation>
+            <Assembly>Res.Microsoft.SystemCenter.HealthServiceOutageData</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.HealthServiceOutageDataItem</Type>
+          </Implementation>
+        </DataType>
+        <DataType ID="P2P.DWCollection.MaintenanceModeData" Accessibility="Internal" Base="System!System.BaseData">
+          <Implementation>
+            <Assembly>Res.Microsoft.SystemCenter.MaintenanceModeData</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.MaintenanceModeDataItem</Type>
+          </Implementation>
+        </DataType>
+        <DataType ID="P2P.DWCollection.ManagedEntityChangeData" Accessibility="Internal" Base="System!System.BaseData">
+          <Implementation>
+            <Assembly>Res.Microsoft.SystemCenter.ManagedEntityChangeData</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.ManagedEntityChangeDataItem</Type>
+          </Implementation>
+        </DataType>
+        <DataType ID="P2P.DWCollection.MonitorInitialStateData" Accessibility="Internal" Base="System!System.BaseData">
+          <Implementation>
+            <Assembly>Res.Microsoft.SystemCenter.MonitorInitialStateData</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.MonitorInitialStateDataItem</Type>
+          </Implementation>
+        </DataType>
+        <DataType ID="P2P.DWCollection.RelationshipChangeData" Accessibility="Internal" Base="System!System.BaseData">
+          <Implementation>
+            <Assembly>Res.Microsoft.SystemCenter.RelationshipChangeData</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.RelationshipChangeDataItem</Type>
+          </Implementation>
+        </DataType>
+        <DataType ID="P2P.DWCollection.ReportDeploymentData" Accessibility="Internal" Base="System!System.BaseData">
+          <Implementation>
+            <Assembly>Res.Microsoft.SystemCenter.ReportDeploymentData</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.ReportDeploymentDataItem</Type>
+          </Implementation>
+        </DataType>
+        <DataType ID="P2P.DWCollection.SynchronizationProcessStateData" Accessibility="Internal" Base="System!System.BaseData">
+          <Implementation>
+            <Assembly>Res.Microsoft.SystemCenter.SynchronizationProcessStateData</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.SynchronizationProcessStateDataItem</Type>
+          </Implementation>
+        </DataType>
+        <DataType ID="P2P.DWCollection.TypedManagedEntityChangeData" Accessibility="Internal" Base="System!System.BaseData">
+          <Implementation>
+            <Assembly>Res.Microsoft.SystemCenter.TypedManagedEntityChangeData</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.TypedManagedEntityChangeDataItem</Type>
+          </Implementation>
+        </DataType>
+      </DataTypes>
+  </TypeDefinitions>
+</ManagementPackFragment>

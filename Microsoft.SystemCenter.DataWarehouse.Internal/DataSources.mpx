@@ -1,0 +1,647 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <ModuleTypes>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.AlertDataSource" Accessibility="Internal" RunAs="SystemCenter!Microsoft.SystemCenter.DatabaseWriteActionAccount" Batching="true">
+        <Configuration>
+          <xsd:element name="ExpirationStartTime" type="xsd:string" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="PollingIntervalMinutes" type="xsd:positiveInteger" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="LanguageCode" type="xsd:string" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="ExpirationStartTime" Selector="$Config/ExpirationStartTime$" ParameterType="string" />
+          <OverrideableParameter ID="PollingIntervalMinutes" Selector="$Config/PollingIntervalMinutes$" ParameterType="int" />
+          <OverrideableParameter ID="LanguageCode" Selector="$Config/LanguageCode$" ParameterType="string" />
+          <OverrideableParameter ID="BatchSize" Selector="$Config/BatchSize$" ParameterType="string" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="DS" TypeID="SystemCenter!Microsoft.SystemCenter.SubscribedAlertProvider">
+                <AlertChangedSubscription Property="Any" History="true">
+                  <ExpirationStartTime>$Config/ExpirationStartTime$</ExpirationStartTime>
+                  <PollingIntervalMinutes>$Config/PollingIntervalMinutes$</PollingIntervalMinutes>
+                  <LanguageCode>$Config/LanguageCode$</LanguageCode>
+                  <BatchSize>$Config/BatchSize$</BatchSize>
+                  <RuleId>$MPElement$</RuleId>
+                  <TargetBaseManagedEntityId>$Target/Id$</TargetBaseManagedEntityId>
+                </AlertChangedSubscription>
+              </DataSource>
+            </MemberModules>
+            <Composition>
+              <Node ID="DS" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>SystemCenter!Microsoft.SystemCenter.DataItemAlertSubscription</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.DataSetDiscoveryDataSource" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <xsd:element name="DiscoveryFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="DiscoveryFrequencySeconds" Selector="$Config/DiscoveryFrequencySeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="DS" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/DiscoveryFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="Probe" TypeID="P2P.DWCollection.DataWarehouse.DataSetDiscoveryProbe">
+                <ComputerPrincipalName>.</ComputerPrincipalName>
+                <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+                <SqlAuthentication>
+                  <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+                  <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+                </SqlAuthentication>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="Probe">
+                <Node ID="DS" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.Deployment.ComponentDataSource" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="DeploymentOperationListFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="DeploymentAttemptIntervalSeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="DeploymentOperationListFrequencySeconds" Selector="$Config/DeploymentOperationListFrequencySeconds$" ParameterType="int" />
+          <OverrideableParameter ID="DeploymentAttemptIntervalSeconds" Selector="$Config/DeploymentAttemptIntervalSeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="DS" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/DeploymentOperationListFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="Probe" TypeID="P2P.DWCollection.DataWarehouse.Deployment.ComponentProbe">
+                <DeploymentAttemptIntervalSeconds>$Config/DeploymentAttemptIntervalSeconds$</DeploymentAttemptIntervalSeconds>
+                <ManagementGroupId>$Config/ManagementGroupId$</ManagementGroupId>
+                <SqlAuthentication>$Config/SqlAuthentication$</SqlAuthentication>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="Probe">
+                <Node ID="DS" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.DataWarehouse.DeploymentOperationData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.DeployedComponentManagementPackDataSource" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="ManagementPackListFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="ManagementPackListFrequencySeconds" Selector="$Config/ManagementPackListFrequencySeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="DS" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/ManagementPackListFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="Probe" TypeID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.DeployedComponentManagementPackProbe">
+                <ManagementGroupId>$Config/ManagementGroupId$</ManagementGroupId>
+                <SqlAuthentication>$Config/SqlAuthentication$</SqlAuthentication>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="Probe">
+                <Node ID="DS" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.DeploymentManagementPacksData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.DeployedManagementPackDataSource" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <xsd:element name="ManagementPackListFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="ManagementPackListFrequencySeconds" Selector="$Config/ManagementPackListFrequencySeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="DS" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/ManagementPackListFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="Probe" TypeID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.DeployedManagementPackProbe" />
+            </MemberModules>
+            <Composition>
+              <Node ID="Probe">
+                <Node ID="DS" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.DeploymentManagementPacksData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.ReportingComponentContainingManagementPackDataSource" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <xsd:element name="ManagementPackListFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="ManagementPackListFrequencySeconds" Selector="$Config/ManagementPackListFrequencySeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="DS" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/ManagementPackListFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="Probe" TypeID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.ReportingComponentContainingManagementPackProbe" />
+            </MemberModules>
+            <Composition>
+              <Node ID="Probe">
+                <Node ID="DS" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.DeploymentManagementPacksData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.StandardDataSetDiscoveryDataSource" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <xsd:element name="DiscoveryFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="DiscoveryFrequencySeconds" Selector="$Config/DiscoveryFrequencySeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="DS" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/DiscoveryFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="Probe" TypeID="P2P.DWCollection.DataWarehouse.StandardDataSetDiscoveryProbe">
+                <DatasetId>$Target/Property[Type="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.DataSet"]/InstanceGuid$</DatasetId>
+                <DatasetManagedEntityId>$Target/Id$</DatasetManagedEntityId>
+                <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
+                <SqlAuthentication>
+                  <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
+                  <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
+                </SqlAuthentication>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="Probe">
+                <Node ID="DS" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.StandardDataSetMaintenanceTimerDataSource" Accessibility="Internal" Batching="false">
+        <Configuration>
+          <xsd:element name="MaintenanceFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="MaintenanceFrequencySeconds" Selector="$Config/MaintenanceFrequencySeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="DS" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/MaintenanceFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+            </MemberModules>
+            <Composition>
+              <Node ID="DS" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.TriggerData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.ConfigurationDataSource" Accessibility="Internal" Batching="true">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="ProbeFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="ProbeFrequencySeconds" Selector="$Config/ProbeFrequencySeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="TimerDataSource" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/ProbeFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="ConfigStateReader" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.ConfigSynchronizationStateReader">
+                <ManagementGroupId>$Config/ManagementGroupId$</ManagementGroupId>
+                <SqlAuthentication>$Config/SqlAuthentication$</SqlAuthentication>
+              </ProbeAction>
+              <ProbeAction ID="ConfigChangeProbe" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.ConfigProbe" />
+            </MemberModules>
+            <Composition>
+              <Node ID="ConfigChangeProbe">
+                <Node ID="ConfigStateReader">
+                  <Node ID="TimerDataSource" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.ConfigurationChangeData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.DomainSnapshotDataSource" Accessibility="Internal" Batching="true">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="DomainSnapshotQueryFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SynchronizationProcessId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="DomainSnapshotQueryFrequencySeconds" Selector="$Config/DomainSnapshotQueryFrequencySeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="TimerDataSource" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/DomainSnapshotQueryFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="StateReader" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.SynchronizationStateReader">
+                <ManagementGroupId>$Config/ManagementGroupId$</ManagementGroupId>
+                <SynchronizationProcessId>$Config/SynchronizationProcessId$</SynchronizationProcessId>
+                <SqlAuthentication>$Config/SqlAuthentication$</SqlAuthentication>
+              </ProbeAction>
+              <ProbeAction ID="DomainSnapshotListBuilder" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.DomainSnapshotProbe" />
+            </MemberModules>
+            <Composition>
+              <Node ID="DomainSnapshotListBuilder">
+                <Node ID="StateReader">
+                  <Node ID="TimerDataSource" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.DomainSnapshotData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.HealthServiceOutageDataSource" Accessibility="Internal" Batching="true">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="BatchGenerationFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="HealthServiceOutageEndMaxAgeMinutes" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SynchronizationProcessId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="BatchSize" Selector="$Config/BatchSize$" ParameterType="int" />
+          <OverrideableParameter ID="BatchGenerationFrequencySeconds" Selector="$Config/BatchGenerationFrequencySeconds$" ParameterType="int" />
+          <OverrideableParameter ID="HealthServiceOutageEndMaxAgeMinutes" Selector="$Config/HealthServiceOutageEndMaxAgeMinutes$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="TimerDataSource" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/BatchGenerationFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="StateReader" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.SynchronizationStateReader">
+                <ManagementGroupId>$Config/ManagementGroupId$</ManagementGroupId>
+                <SynchronizationProcessId>$Config/SynchronizationProcessId$</SynchronizationProcessId>
+                <SqlAuthentication>$Config/SqlAuthentication$</SqlAuthentication>
+              </ProbeAction>
+              <ProbeAction ID="HealthServiceOutageListBuilder" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.HealthServiceOutageProbe">
+                <BatchSize>$Config/BatchSize$</BatchSize>
+                <HealthServiceOutageEndMaxAgeMinutes>$Config/HealthServiceOutageEndMaxAgeMinutes$</HealthServiceOutageEndMaxAgeMinutes>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="HealthServiceOutageListBuilder">
+                <Node ID="StateReader">
+                  <Node ID="TimerDataSource" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.HealthServiceOutageData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.MaintenanceModeDataSource" Accessibility="Internal" Batching="true">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="BatchGenerationFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="MaintenanceModeEndMaxAgeMinutes" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SynchronizationProcessId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="BatchSize" Selector="$Config/BatchSize$" ParameterType="int" />
+          <OverrideableParameter ID="BatchGenerationFrequencySeconds" Selector="$Config/BatchGenerationFrequencySeconds$" ParameterType="int" />
+          <OverrideableParameter ID="MaintenanceModeEndMaxAgeMinutes" Selector="$Config/MaintenanceModeEndMaxAgeMinutes$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="TimerDataSource" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/BatchGenerationFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="StateReader" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.SynchronizationStateReader">
+                <ManagementGroupId>$Config/ManagementGroupId$</ManagementGroupId>
+                <SynchronizationProcessId>$Config/SynchronizationProcessId$</SynchronizationProcessId>
+                <SqlAuthentication>$Config/SqlAuthentication$</SqlAuthentication>
+              </ProbeAction>
+              <ProbeAction ID="MaintenanceModeListBuilder" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.MaintenanceModeProbe">
+                <BatchSize>$Config/BatchSize$</BatchSize>
+                <MaintenanceModeEndMaxAgeMinutes>$Config/MaintenanceModeEndMaxAgeMinutes$</MaintenanceModeEndMaxAgeMinutes>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="MaintenanceModeListBuilder">
+                <Node ID="StateReader">
+                  <Node ID="TimerDataSource" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.MaintenanceModeData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.ManagedEntityDataSource" Accessibility="Internal" Batching="true">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="BatchGenerationFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SynchronizationProcessId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="BatchSize" Selector="$Config/BatchSize$" ParameterType="int" />
+          <OverrideableParameter ID="BatchGenerationFrequencySeconds" Selector="$Config/BatchGenerationFrequencySeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="TimerDataSource" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/BatchGenerationFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="StateReader" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.SynchronizationStateReader">
+                <ManagementGroupId>$Config/ManagementGroupId$</ManagementGroupId>
+                <SynchronizationProcessId>$Config/SynchronizationProcessId$</SynchronizationProcessId>
+                <SqlAuthentication>$Config/SqlAuthentication$</SqlAuthentication>
+              </ProbeAction>
+              <ProbeAction ID="ManagedEntityListBuilder" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.ManagedEntityProbe">
+                <BatchSize>$Config/BatchSize$</BatchSize>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="ManagedEntityListBuilder">
+                <Node ID="StateReader">
+                  <Node ID="TimerDataSource" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.ManagedEntityChangeData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.MonitorInitialStateDataSource" Accessibility="Internal" Batching="true">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="BatchGenerationFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="LastStateChangeToTransferOffsetMinutes" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="StateChangeMaxAgeMinutes" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SynchronizationProcessId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="BatchSize" Selector="$Config/BatchSize$" ParameterType="int" />
+          <OverrideableParameter ID="BatchGenerationFrequencySeconds" Selector="$Config/BatchGenerationFrequencySeconds$" ParameterType="int" />
+          <OverrideableParameter ID="LastStateChangeToTransferOffsetMinutes" Selector="$Config/LastStateChangeToTransferOffsetMinutes$" ParameterType="int" />
+          <OverrideableParameter ID="StateChangeMaxAgeMinutes" Selector="$Config/StateChangeMaxAgeMinutes$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="TimerDataSource" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/BatchGenerationFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="StateReader" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.SynchronizationStateReader">
+                <ManagementGroupId>$Config/ManagementGroupId$</ManagementGroupId>
+                <SynchronizationProcessId>$Config/SynchronizationProcessId$</SynchronizationProcessId>
+                <SqlAuthentication>$Config/SqlAuthentication$</SqlAuthentication>
+              </ProbeAction>
+              <ProbeAction ID="MonitorInitialStateListBuilder" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.MonitorInitialStateProbe">
+                <BatchSize>$Config/BatchSize$</BatchSize>
+                <LastStateChangeToTransferOffsetMinutes>$Config/LastStateChangeToTransferOffsetMinutes$</LastStateChangeToTransferOffsetMinutes>
+                <StateChangeMaxAgeMinutes>$Config/StateChangeMaxAgeMinutes$</StateChangeMaxAgeMinutes>
+                <ManagementGroupId>$Config/ManagementGroupId$</ManagementGroupId>
+                <SynchronizationProcessId>$Config/SynchronizationProcessId$</SynchronizationProcessId>
+                <SqlAuthentication>$Config/SqlAuthentication$</SqlAuthentication>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="MonitorInitialStateListBuilder">
+                <Node ID="StateReader">
+                  <Node ID="TimerDataSource" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.MonitorInitialStateData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.RelationshipDataSource" Accessibility="Internal" Batching="true">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="BatchGenerationFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SynchronizationProcessId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="BatchSize" Selector="$Config/BatchSize$" ParameterType="int" />
+          <OverrideableParameter ID="BatchGenerationFrequencySeconds" Selector="$Config/BatchGenerationFrequencySeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="TimerDataSource" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/BatchGenerationFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="StateReader" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.SynchronizationStateReader">
+                <ManagementGroupId>$Config/ManagementGroupId$</ManagementGroupId>
+                <SynchronizationProcessId>$Config/SynchronizationProcessId$</SynchronizationProcessId>
+                <SqlAuthentication>$Config/SqlAuthentication$</SqlAuthentication>
+              </ProbeAction>
+              <ProbeAction ID="RelationshipListBuilder" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.RelationshipProbe">
+                <BatchSize>$Config/BatchSize$</BatchSize>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="RelationshipListBuilder">
+                <Node ID="StateReader">
+                  <Node ID="TimerDataSource" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.RelationshipChangeData</OutputType>
+      </DataSourceModuleType>
+      <DataSourceModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.TypeManagedEntityDataSource" Accessibility="Internal" Batching="true">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="BatchGenerationFrequencySeconds" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SynchronizationProcessId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="BatchSize" Selector="$Config/BatchSize$" ParameterType="int" />
+          <OverrideableParameter ID="BatchGenerationFrequencySeconds" Selector="$Config/BatchGenerationFrequencySeconds$" ParameterType="int" />
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="TimerDataSource" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval Unit="Seconds">$Config/BatchGenerationFrequencySeconds$</Interval>
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="StateReader" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.SynchronizationStateReader">
+                <ManagementGroupId>$Config/ManagementGroupId$</ManagementGroupId>
+                <SynchronizationProcessId>$Config/SynchronizationProcessId$</SynchronizationProcessId>
+                <SqlAuthentication>$Config/SqlAuthentication$</SqlAuthentication>
+              </ProbeAction>
+              <ProbeAction ID="TypedManagedEntityListBuilder" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.TypedManagedEntityProbe">
+                <BatchSize>$Config/BatchSize$</BatchSize>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="TypedManagedEntityListBuilder">
+                <Node ID="StateReader">
+                  <Node ID="TimerDataSource" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.TypedManagedEntityChangeData</OutputType>
+      </DataSourceModuleType>
+    </ModuleTypes>
+  </TypeDefinitions>
+</ManagementPackFragment>

@@ -1,0 +1,49 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Monitoring>
+
+    <Discoveries>
+      <Discovery ID="P2P.DWCollection.DataWarehouse.Discovery.DataSet" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.DataSet">
+            <Property PropertyID="InstanceGuid" />
+            <Property PropertyID="Description" />
+            <Property TypeID="System!System.Entity" PropertyID="DisplayName" />
+          </DiscoveryClass>
+          <DiscoveryRelationship TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.DataWarehouseContainsDataSet" />
+          <DiscoveryRelationship TypeID="SystemCenter!Microsoft.SystemCenter.HealthServiceShouldManageEntity" />
+        </DiscoveryTypes>
+        <DataSource ID="DS" TypeID="P2P.DWCollection.DataWarehouse.DataSetDiscoveryDataSource">
+          <DiscoveryFrequencySeconds>60</DiscoveryFrequencySeconds>
+        </DataSource>
+      </Discovery>
+      <Discovery ID="P2P.DWCollection.DataWarehouse.Discovery.StandardDataSet" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.DataSet" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.StandardDataSet" />
+        </DiscoveryTypes>
+        <DataSource ID="DS" TypeID="P2P.DWCollection.DataWarehouse.StandardDataSetDiscoveryDataSource">
+          <DiscoveryFrequencySeconds>300</DiscoveryFrequencySeconds>
+        </DataSource>
+      </Discovery>
+      <Discovery ID="P2P.DWCollection.OpsMgrDWWatchersReferenceDWConnectorServer.Discovery" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.OpsMgrDWWatcher" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryRelationship TypeID="DataWarehouse!Microsoft.SystemCenter.OpsMgrDWWatchers.ReferenceDWConnectorServer" />
+        </DiscoveryTypes>
+        <DataSource ID="ReferencePopulator" TypeID="SystemCenter!Microsoft.SystemCenter.ReferencePopulator">
+          <RuleId>$MPElement$</RuleId>
+          <SourceInstanceId>$Target/Id$</SourceInstanceId>
+          <SourceMonitoringClass>$MPElement[Name="SystemCenter!Microsoft.SystemCenter.OpsMgrDWWatcher"]$</SourceMonitoringClass>
+          <ReferenceRules>
+            <ReferenceRule>
+              <MonitoringClass>$MPElement[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouseConnectorServer"]$</MonitoringClass>
+              <RelationshipClass>$MPElement[Name="DataWarehouse!Microsoft.SystemCenter.OpsMgrDWWatchers.ReferenceDWConnectorServer"]$</RelationshipClass>
+            </ReferenceRule>
+          </ReferenceRules>
+        </DataSource>
+      </Discovery>
+    </Discoveries>
+
+  </Monitoring>
+</ManagementPackFragment>

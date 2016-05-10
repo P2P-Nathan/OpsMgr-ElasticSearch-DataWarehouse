@@ -1,0 +1,12 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+        <ClassType ID="P2P.DWCollection.DataWarehouseSynchronizationServer" Accessibility="Internal" Abstract="false" Base="SystemCenter!Microsoft.SystemCenter.ManagementServer" Hosted="true" Singleton="false" Extension="false" />
+        <ClassType ID="P2P.DWCollection.DataWarehouseSynchronizationService" Accessibility="Internal" Abstract="false" Base="System!System.LogicalEntity" Hosted="false" Singleton="false" Extension="false">
+          <Property ID="Id" Type="string" AutoIncrement="false" Key="true" CaseSensitive="false" MaxLength="40" MinLength="0" Required="false" Scale="0" />
+        </ClassType>
+      </ClassTypes>
+    </EntityTypes>
+  </TypeDefinitions>  
+</ManagementPackFragment>

@@ -1,0 +1,245 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <ModuleTypes>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.DataSetDiscoveryProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="false" PassThrough="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="ComputerPrincipalName" type="xsd:string" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.DataSetDiscoveryProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.DataSetDiscoveryProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Deployment.ComponentProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="false" PassThrough="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="DeploymentAttemptIntervalSeconds" type="xsd:positiveInteger" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Deployment.ComponentProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.GetDeploymentOperationProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.DataWarehouse.DeploymentOperationData</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.DeployedComponentManagementPackProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="false" PassThrough="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="ManagementGroupId" type="xsd:string" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Deployment.Reporting.DeployedComponentManagementPackProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.DataWarehouseDeployedReportListProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.DeploymentManagementPacksData</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.DeployedManagementPackProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ReportDeploymentActionAccount" Batching="false" PassThrough="false">
+        <Configuration />
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Deployment.Reporting.DeployedManagementPackProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.SrsDeployedManagementPackListProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.DeploymentManagementPacksData</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.ReportingComponentContainingManagementPackProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="false" PassThrough="false">
+        <Configuration />
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Deployment.Reporting.ReportingComponentContainingManagementPackProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.ManagementGroupInstalledManagementPackListProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.DeploymentManagementPacksData</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.StandardDataSetDiscoveryProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="false" PassThrough="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="DatasetId" type="xsd:string" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="DatasetManagedEntityId" type="xsd:string" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.StandardDataSetDiscoveryProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.StandardDataSetDiscoveryProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>System!System.Discovery.Data</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.ConfigProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="true" PassThrough="false">
+        <Configuration />
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Synchronization.ConfigProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.ConfigProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.ConfigurationChangeData</OutputType>
+        <InputType>P2P.DWCollection.SynchronizationProcessStateData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.ConfigSynchronizationStateReader" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="false" PassThrough="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="ManagementGroupId" type="xsd:string" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Synchronization.ConfigSynchronizationStateReader</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.ConfigSynchStateReaderModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.SynchronizationProcessStateData</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.DomainSnapshotProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="true" PassThrough="false">
+        <Configuration />
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Synchronization.DomainSnapshotProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.DomainSnapshotProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.DomainSnapshotData</OutputType>
+        <InputType>P2P.DWCollection.SynchronizationProcessStateData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.HealthServiceOutageProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="true" PassThrough="false">
+        <Configuration>
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="HealthServiceOutageEndMaxAgeMinutes" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Synchronization.HealthServiceOutageProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.HealthServiceOutageProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.HealthServiceOutageData</OutputType>
+        <InputType>P2P.DWCollection.SynchronizationProcessStateData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.MaintenanceModeProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="true" PassThrough="false">
+        <Configuration>
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="MaintenanceModeEndMaxAgeMinutes" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Synchronization.MaintenanceModeProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.MaintenanceModeProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.MaintenanceModeData</OutputType>
+        <InputType>P2P.DWCollection.SynchronizationProcessStateData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.ManagedEntityProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="true" PassThrough="false">
+        <Configuration>
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Synchronization.ManagedEntityProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.ManagedEntityProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.ManagedEntityChangeData</OutputType>
+        <InputType>P2P.DWCollection.SynchronizationProcessStateData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.MonitorInitialStateProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="true" PassThrough="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="LastStateChangeToTransferOffsetMinutes" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="StateChangeMaxAgeMinutes" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ManagementGroupId" type="xsd:string" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SynchronizationProcessId" type="xsd:string" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Synchronization.MonitorInitialStateProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.MonitorInitialStateProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.MonitorInitialStateData</OutputType>
+        <InputType>P2P.DWCollection.SynchronizationProcessStateData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.RelationshipProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="true" PassThrough="false">
+        <Configuration>
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Synchronization.RelationshipProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.RelationshipProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.RelationshipChangeData</OutputType>
+        <InputType>P2P.DWCollection.SynchronizationProcessStateData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.SynchronizationStateReader" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="false" PassThrough="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="ManagementGroupId" type="xsd:string" minOccurs="1" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SynchronizationProcessId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="SqlAuthentication" type="SqlAuthenticationType" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Synchronization.SynchronizationStateReader</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.StateTableSynchronizationStateReaderModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.SynchronizationProcessStateData</OutputType>
+        <InputType>System!System.BaseData</InputType>
+      </ProbeActionModuleType>
+      <ProbeActionModuleType ID="P2P.DWCollection.DataWarehouse.Synchronization.TypedManagedEntityProbe" Accessibility="Internal" RunAs="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.ActionAccount" Batching="true" PassThrough="false">
+        <Configuration>
+          <xsd:element name="BatchSize" type="xsd:positiveInteger" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <ModuleImplementation Isolation="Any">
+          <Managed>
+            <Assembly>Res.Microsoft.SystemCenter.DataWarehouse.Synchronization.TypedManagedEntityProbe</Assembly>
+            <Type>Microsoft.EnterpriseManagement.HealthService.Modules.DataWarehouse.TypedManagedEntityProbeModule</Type>
+          </Managed>
+        </ModuleImplementation>
+        <OutputType>P2P.DWCollection.TypedManagedEntityChangeData</OutputType>
+        <InputType>P2P.DWCollection.SynchronizationProcessStateData</InputType>
+      </ProbeActionModuleType>
+    </ModuleTypes>
+  </TypeDefinitions>  
+</ManagementPackFragment>

@@ -14,6 +14,8 @@ Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "P2P.Custom.LogTester", "P2P
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MyNoisyApp", "MyNoisyApp\MyNoisyApp.vbproj", "{4D28D33E-31AB-47BD-8723-4E3EC402E4C9}"
 EndProject
+Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "P2P.DWCollections.DataWarehouse.Internal", "Microsoft.SystemCenter.DataWarehouse.Internal\P2P.DWCollections.DataWarehouse.Internal.mpproj", "{DB069AFA-1C0A-4EA4-9513-B31891F4A793}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,12 @@ Global
 		{4D28D33E-31AB-47BD-8723-4E3EC402E4C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D28D33E-31AB-47BD-8723-4E3EC402E4C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D28D33E-31AB-47BD-8723-4E3EC402E4C9}.Release|x86.ActiveCfg = Release|Any CPU
+		{DB069AFA-1C0A-4EA4-9513-B31891F4A793}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DB069AFA-1C0A-4EA4-9513-B31891F4A793}.Debug|x86.ActiveCfg = Debug|x86
+		{DB069AFA-1C0A-4EA4-9513-B31891F4A793}.Debug|x86.Build.0 = Debug|x86
+		{DB069AFA-1C0A-4EA4-9513-B31891F4A793}.Release|Any CPU.ActiveCfg = Release|x86
+		{DB069AFA-1C0A-4EA4-9513-B31891F4A793}.Release|x86.ActiveCfg = Release|x86
+		{DB069AFA-1C0A-4EA4-9513-B31891F4A793}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
