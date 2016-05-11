@@ -38,7 +38,7 @@
         <ConditionDetection ID="CD" TypeID="PCMML!P2P.Library.PrepareJSONDocumentry">
           <PerfItemPrefix>perf-dt-</PerfItemPrefix>
           <WinEventPrefix>winevent-dt-</WinEventPrefix>
-          <OtherItemPrefix>ChangeData-</OtherItemPrefix>
+          <OtherItemPrefix>changedata-</OtherItemPrefix>
           <EnableDateRolling>true</EnableDateRolling>
           <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
           <ReturnMultipleItems>true</ReturnMultipleItems>

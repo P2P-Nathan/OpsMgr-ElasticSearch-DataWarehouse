@@ -37,10 +37,7 @@
     <Compile Include="DataTypes.mpx">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Discoveries.mpx">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="EntityTypes.mpx">
+    <Compile Include="DWOverrides.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Rules.mpx">
@@ -88,6 +85,7 @@
       <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\Microsoft.Windows.Library.mp</HintPath>
       <Alias>Windows</Alias>
       <MinVersion>7.5.8501.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.Health.Library">
       <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Health.Library.mp</HintPath>
@@ -99,11 +97,13 @@
       <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Library.mp</HintPath>
       <Alias>System</Alias>
       <MinVersion>7.5.8501.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.Performance.Library">
       <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Performance.Library.mp</HintPath>
       <Alias>Performance</Alias>
       <MinVersion>7.0.8433.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
   </ItemGroup>
   <ItemGroup>

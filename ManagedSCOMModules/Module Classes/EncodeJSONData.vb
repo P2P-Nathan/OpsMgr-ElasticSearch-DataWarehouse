@@ -138,8 +138,12 @@ Public Class EncodeJSONData
         ' request an ack on the data we post.  If there was no ack on the
         ' input data it doesn't make sense to request an ack on the
         ' output.
-        Dim ackNeeded As Boolean = acknowledgedCallback IsNot Nothing
-        'Logger.WriteTrace("Processing New Data Items")
+        Dim ackNeeded As Boolean
+        If acknowledgedCallback IsNot Nothing Then
+            ackNeeded = True
+        Else
+            ackNeeded = False
+        End If
 
         ' Acquire the lock guarding against shutdown.
         SyncLock shutdownLock
@@ -234,18 +238,22 @@ Public Class EncodeJSONData
                                                                          Debug.Assert(ackState Is Nothing)
 
                                                                          SyncLock shutdownLock
-                                                                             ' If we have been shutdown stop processing.
-                                                                             If boolshutdown Then
-                                                                                 Return
-                                                                             End If
+                                                                             Try
+                                                                                 If boolshutdown Then
+                                                                                     Return
+                                                                                 End If
 
-                                                                             ' Send the ack and completion back for the input.
-                                                                             acknowledgedCallback(acknowledgedState)
-                                                                             completionCallback(completionState)
+                                                                                 ' Send the ack and completion back for the input.
+                                                                                 acknowledgedCallback(acknowledgedState)
+                                                                                 completionCallback(completionState)
 
-                                                                             ' Know that we have sent back both the completion and
-                                                                             ' ack we can request the next data item.
-                                                                             ModuleHost.RequestNextDataItem()
+                                                                                 ' Know that we have sent back both the completion and
+                                                                                 ' ack we can request the next data item.
+                                                                                 ModuleHost.RequestNextDataItem()
+                                                                             Catch ex As Exception
+                                                                                 Throw New Exception("Failed to Process Ack in the AckDelegate")
+                                                                             End Try ' If we have been shutdown stop processing.
+
                                                                          End SyncLock
 
                                                                      End Sub

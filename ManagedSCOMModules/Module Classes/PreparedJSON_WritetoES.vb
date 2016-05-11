@@ -88,7 +88,12 @@ Public NotInheritable Class PreparedJSON_WritetoES
         If (acknowledgedCallback Is Nothing AndAlso completionCallback IsNot Nothing) OrElse (acknowledgedCallback IsNot Nothing AndAlso completionCallback Is Nothing) Then
             Throw New ArgumentOutOfRangeException("acknowledgedCallback, completionCallback", "Only one of acknowledgedCallback and completionCallback is non-null together")
         End If
-        Dim ackNeeded As Boolean = acknowledgedCallback IsNot Nothing
+        Dim ackNeeded As Boolean
+        If acknowledgedCallback IsNot Nothing Then
+            ackNeeded = True
+        Else
+            ackNeeded = False
+        End If
 
         SyncLock shutdownLock
             Try

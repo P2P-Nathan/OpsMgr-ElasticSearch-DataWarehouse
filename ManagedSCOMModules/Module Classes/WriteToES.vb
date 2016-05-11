@@ -84,19 +84,48 @@ Public NotInheritable Class WriteToES
             Return
         End If
 
-        Try
-            DataItemCollection.ProcessandLoadData(dataItems)
-            If DataItemCollection.HasWindowsEvents Then ESConnector.IndexBulkWinEventsParallel(DataItemCollection.GetWinEventsToSubmit(), 400, 8)
-            If DataItemCollection.HasPerfItems Then ESConnector.IndexBulkPerfEventsParallel(DataItemCollection.GetPerfItemsToSubmit(), 800, 8)
-            If DataItemCollection.HasNONWindowsEvents Then ESConnector.IndexBulkOtherEventsParallel(DataItemCollection.GetNonWindowsEvents(), 200, 8)
-            DataItemCollection.CleanCollection()
-        Catch ex As Exception
-            Logger.LogErrorDetails("Failed to Process Data Items:  ", ex)
-            DataItemCollection = New DataItemProcessor(Logger)
-        End Try
+        If (acknowledgedCallback Is Nothing AndAlso completionCallback IsNot Nothing) OrElse (acknowledgedCallback IsNot Nothing AndAlso completionCallback Is Nothing) Then
+            Throw New ArgumentOutOfRangeException("acknowledgedCallback, completionCallback", "Only one of acknowledgedCallback and completionCallback is non-null together")
+        End If
+
+        ' If an ack was requested on the data we received we want to
+        ' request an ack on the data we post.  If there was no ack on the
+        ' input data it doesn't make sense to request an ack on the
+        ' output.
+        Dim ackNeeded As Boolean = acknowledgedCallback IsNot Nothing
+        'Logger.WriteTrace("Processing New Data Items")
 
         SyncLock shutdownLock
+
+            Try
+                DataItemCollection.ProcessandLoadData(dataItems)
+                If DataItemCollection.HasWindowsEvents Then ESConnector.IndexBulkWinEventsParallel(DataItemCollection.GetWinEventsToSubmit(), 400, 8)
+                If DataItemCollection.HasPerfItems Then ESConnector.IndexBulkPerfEventsParallel(DataItemCollection.GetPerfItemsToSubmit(), 800, 8)
+                If DataItemCollection.HasNONWindowsEvents Then ESConnector.IndexBulkOtherEventsParallel(DataItemCollection.GetNonWindowsEvents(), 200, 8)
+                DataItemCollection.CleanCollection()
+            Catch ex As Exception
+                Logger.LogErrorDetails("Failed to Process Data Items:  ", ex)
+                DataItemCollection = New DataItemProcessor(Logger)
+            End Try
+
             Me.ModuleHost.RequestNextDataItem()
+
+            If ackNeeded Then
+
+                ' Send the ack and completion back for the input.
+                acknowledgedCallback(acknowledgedState)
+                completionCallback(completionState)
+
+                ' Know that we have sent back both the completion and
+                ' ack we can request the next data item.
+                Threading.Thread.Sleep(100)
+                ModuleHost.RequestNextDataItem()
+
+            Else
+                Threading.Thread.Sleep(100)
+                ModuleHost.RequestNextDataItem()
+            End If
+
         End SyncLock
 
 

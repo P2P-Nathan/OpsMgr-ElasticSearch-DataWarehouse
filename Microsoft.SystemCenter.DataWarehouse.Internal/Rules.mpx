@@ -1,7 +1,7 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Monitoring>
      <Rules>
-      <Rule ID="P2P.DWCollection.DataWarehouse.CollectAlertData" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectAlertData" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>System</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="P2P.DWCollection.DataWarehouse.AlertDataSource">
@@ -11,12 +11,19 @@
             <BatchSize>1000</BatchSize>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>otherdata-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WA" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.AlertDataWriterDefaultRouting">
-            <BulkInsertBatchSize>1500</BulkInsertBatchSize>
-            <MaxBatchesToProcessBeforeMaintenanceCount>1</MaxBatchesToProcessBeforeMaintenanceCount>
-            <MaxExecutionAttemptCount>0</MaxExecutionAttemptCount>
-            <ExecutionAttemptTimeoutIntervalSeconds>0</ExecutionAttemptTimeoutIntervalSeconds>
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
       </Rule>
@@ -59,7 +66,7 @@
           <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishEventData" />
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.AvgBatchProcessingTime" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.AvgBatchProcessingTime" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
@@ -79,7 +86,7 @@
           <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.AvgBatchSize" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.AvgBatchSize" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
@@ -99,7 +106,7 @@
           <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.BatchAge" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.BatchAge" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
@@ -119,7 +126,7 @@
           <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.BatchesPerSecond" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.BatchesPerSecond" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
@@ -139,7 +146,7 @@
           <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.BatchSize" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.BatchSize" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
@@ -159,7 +166,7 @@
           <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.DataItemsPerSecond" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.DataItemsPerSecond" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
@@ -179,7 +186,7 @@
           <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.ErrorsPerSecond" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.ErrorsPerSecond" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
@@ -199,7 +206,7 @@
           <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.TotalErrorCount" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Synchronization.TotalErrorCount" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
         <DataSources>
           <DataSource ID="DS" TypeID="Performance!System.Performance.OptimizedDataProvider">
@@ -354,10 +361,20 @@
             <MaximumSampleSeparation>10</MaximumSampleSeparation>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>otherdata-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
-          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
-        </WriteActions>
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction> </WriteActions>
       </Rule>
       <Rule ID="P2P.DWCollection.DataWarehouse.CollectionRule.Performance.Writer.TotalErrorCount" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouseConnectorServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>PerformanceCollection</Category>
@@ -374,12 +391,22 @@
             <MaximumSampleSeparation>10</MaximumSampleSeparation>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>otherdata-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WriteToDB" TypeID="SystemCenter!Microsoft.SystemCenter.CollectPerformanceData" />
-          <WriteAction ID="WriteToDW" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
-        </WriteActions>
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction> </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.Deployment.Component" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.Deployment.Component" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>System</Category>
         <DataSources>
           <DataSource ID="ComponentDeploymentSource" TypeID="P2P.DWCollection.DataWarehouse.Deployment.ComponentDataSource">
@@ -392,17 +419,23 @@
             </SqlAuthentication>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>otherdata-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Deployment.ComponentDeployer">
-            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
-            <SqlAuthentication>
-              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
-              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
-            </SqlAuthentication>
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.Deployment.Report" Enabled="false" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.Deployment.Report" Enabled="false" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>System</Category>
         <DataSources>
           <DataSource ID="DeployedComponentMPListDataSource" TypeID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.DeployedComponentManagementPackDataSource">
@@ -422,7 +455,12 @@
         </DataSources>
         <ConditionDetection ID="CorrelatingCondition" TypeID="P2P.DWCollection.DataWarehouse.Deployment.Reporting.ReportDeploymentCondition" />
         <WriteActions>
-          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Deployment.ReportDeployer" />
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WriteToElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <WinEventIndex>SCOMWinEvents</WinEventIndex>
+            <AllOtherIndex>SCOMDataItems</AllOtherIndex>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
         </WriteActions>
       </Rule>
       <Rule ID="P2P.DWCollection.DataWarehouse.StandardDataSetMaintenance" Enabled="true" Target="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.StandardDataSet" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
@@ -432,18 +470,23 @@
             <MaintenanceFrequencySeconds>60</MaintenanceFrequencySeconds>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>otherdata-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.StandardDataSetMaintenanceAction">
-            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
-            <DataSetId>$Target/Property[Type="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.DataSet"]/InstanceGuid$</DataSetId>
-            <SqlAuthentication>
-              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
-              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
-            </SqlAuthentication>
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.Configuration" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.Configuration" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>System</Category>
         <DataSources>
           <DataSource ID="ConfigDataSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.ConfigurationDataSource">
@@ -455,17 +498,23 @@
             </SqlAuthentication>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>otherdata-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.ConfigurationChangeWriter">
-            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
-            <SqlAuthentication>
-              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
-              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
-            </SqlAuthentication>
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.DomainSnapshot" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.DomainSnapshot" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>System</Category>
         <DataSources>
           <DataSource ID="DomainSnapshotSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.DomainSnapshotDataSource">
@@ -478,18 +527,23 @@
             </SqlAuthentication>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>otherdata-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.DomainSnapshotWriter">
-            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
-            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
-            <SqlAuthentication>
-              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
-              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
-            </SqlAuthentication>
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.HealthServiceOutage" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.HealthServiceOutage" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>System</Category>
         <DataSources>
           <DataSource ID="HealthServiceOutageSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.HealthServiceOutageDataSource">
@@ -504,18 +558,23 @@
             </SqlAuthentication>
           </DataSource>
         </DataSources>
-        <WriteActions>
-          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.HealthServiceOutageWriter">
-            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
-            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
-            <SqlAuthentication>
-              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
-              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
-            </SqlAuthentication>
-          </WriteAction>
-        </WriteActions>
+          <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+            <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+            <WinEventPrefix>winevent-dt-</WinEventPrefix>
+            <OtherItemPrefix>otherdata-</OtherItemPrefix>
+            <EnableDateRolling>true</EnableDateRolling>
+            <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+            <ReturnMultipleItems>true</ReturnMultipleItems>
+            <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+          </ConditionDetection>
+          <WriteActions>
+            <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+              <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+              <TryBulkInsert>true</TryBulkInsert>
+            </WriteAction>
+          </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.MaintenanceMode" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.MaintenanceMode" Enabled="false" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>System</Category>
         <DataSources>
           <DataSource ID="MaintenanceModeSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.MaintenanceModeDataSource">
@@ -530,18 +589,23 @@
             </SqlAuthentication>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>otherdata-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.MaintenanceModeWriter">
-            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
-            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
-            <SqlAuthentication>
-              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
-              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
-            </SqlAuthentication>
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.ManagedEntity" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.ManagedEntity" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>System</Category>
         <DataSources>
           <DataSource ID="ManagedEntityChangeDataSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.ManagedEntityDataSource">
@@ -555,18 +619,22 @@
             </SqlAuthentication>
           </DataSource>
         </DataSources>
+    <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>otherdata-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.ManagedEntityChangeWriter">
-            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
-            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
-            <SqlAuthentication>
-              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
-              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
-            </SqlAuthentication>
-          </WriteAction>
-        </WriteActions>
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction> </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.MonitorInitialState" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.MonitorInitialState" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>System</Category>
         <DataSources>
           <DataSource ID="MonitorInitialStateDataSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.MonitorInitialStateDataSource">
@@ -582,11 +650,23 @@
             </SqlAuthentication>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>otherdata-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WA" TypeID="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.EntityHealthStateChangeDataWriterDefaultRouting" />
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
+          </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.Relationship" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.Relationship" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>System</Category>
         <DataSources>
           <DataSource ID="RelationshipChangeDataSource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.RelationshipDataSource">
@@ -600,18 +680,23 @@
             </SqlAuthentication>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>otherdata-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.RelationshipChangeWriter">
-            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
-            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
-            <SqlAuthentication>
-              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
-              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
-            </SqlAuthentication>
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
       </Rule>
-      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.TypedManagedEntity" Enabled="true" Target="P2P.DWCollection.DataWarehouseSynchronizationService" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+      <Rule ID="P2P.DWCollection.DataWarehouse.Synchronization.TypedManagedEntity" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
         <Category>System</Category>
         <DataSources>
           <DataSource ID="TypedManagedEntitySource" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.TypeManagedEntityDataSource">
@@ -625,14 +710,19 @@
             </SqlAuthentication>
           </DataSource>
         </DataSources>
+        <ConditionDetection ID="CD" TypeID="P2PElastic!P2P.Library.PrepareJSONDocumentry">
+          <PerfItemPrefix>perf-dt-</PerfItemPrefix>
+          <WinEventPrefix>winevent-dt-</WinEventPrefix>
+          <OtherItemPrefix>otherdata-</OtherItemPrefix>
+          <EnableDateRolling>true</EnableDateRolling>
+          <DateRollingFormat>yyyy.MM.dd.HH</DateRollingFormat>
+          <ReturnMultipleItems>true</ReturnMultipleItems>
+          <ComputerName>$Target/Property[Type="System!System.Entity"]/DisplayName$</ComputerName>
+        </ConditionDetection>
         <WriteActions>
-          <WriteAction ID="WA" TypeID="P2P.DWCollection.DataWarehouse.Synchronization.TypedManagedEntityWriter">
-            <ManagementGroupId>$Target/ManagementGroup/Id$</ManagementGroupId>
-            <SynchronizationProcessId>$MPElement$</SynchronizationProcessId>
-            <SqlAuthentication>
-              <Login>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/UserName$</Login>
-              <Password>$RunAs[Name="DataWarehouse!Microsoft.SystemCenter.DataWarehouse.SqlAuthenticationActionAccount"]/Password$</Password>
-            </SqlAuthentication>
+          <WriteAction ID="WriteToES" TypeID="P2PElastic!P2P.Library.WritePreparedJSONElasticSearch">
+            <ElasticSearchNode>http://p2pelastic.cloudapp.net:37420/</ElasticSearchNode>
+            <TryBulkInsert>true</TryBulkInsert>
           </WriteAction>
         </WriteActions>
       </Rule>
